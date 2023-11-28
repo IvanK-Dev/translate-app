@@ -11,9 +11,9 @@ import {
 import { TitleBar } from "@shopify/app-bridge-react";
 import { useTranslation, Trans } from "react-i18next";
 
-import { trophyImage } from "../assets";
+import { trophyImage } from "../assets/index.js";
 
-import { ProductsCard } from "../components";
+import { ProductsCard } from "../components/index.js";
 
 export default function HomePage() {
   const { t } = useTranslation();

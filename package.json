@@ -1,7 +1,7 @@
 {
   "name": "translate-app",
   "version": "1.0.0",
-  "main": "web/index.js",
+  "main": "server/index.js",
   "license": "UNLICENSED",
   "scripts": {
     "shopify": "shopify",

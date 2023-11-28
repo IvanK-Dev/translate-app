@@ -1,13 +1,13 @@
 import { BrowserRouter } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { NavigationMenu } from "@shopify/app-bridge-react";
-import Routes from "./Routes";
+import Routes from "./Routes.jsx";
 
 import {
   AppBridgeProvider,
   QueryProvider,
   PolarisProvider,
-} from "./components";
+} from "./components/index.js";
 
 export default function App() {
   // Any .tsx or .jsx files in /pages will become a route

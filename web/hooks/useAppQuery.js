@@ -1,4 +1,4 @@
-import { useAuthenticatedFetch } from "./useAuthenticatedFetch";
+import { useAuthenticatedFetch } from "./useAuthenticatedFetch.js";
 import { useMemo } from "react";
 import { useQuery } from "react-query";
 

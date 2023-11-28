@@ -1,3 +1,28 @@
-# This file stores configurations for your Shopify app.
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
+name = "translate-app"
+client_id = "76d7490ead990cccfd8fb2b06516e62b"
+application_url = "https://thread-adjustable-capable-weblog.trycloudflare.com"
+embedded = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
 scopes = "write_products"
+
+[auth]
+redirect_urls = [
+  "https://thread-adjustable-capable-weblog.trycloudflare.com/auth/callback",
+  "https://thread-adjustable-capable-weblog.trycloudflare.com/auth/shopify/callback",
+  "https://thread-adjustable-capable-weblog.trycloudflare.com/api/auth/callback",
+  "https://thread-adjustable-capable-weblog.trycloudflare.com/.shopify/graphiql/auth/callback"
+]
+
+[webhooks]
+api_version = "2023-10"
+
+[pos]
+embedded = false
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "quickstart-8a9ac96d.myshopify.com"

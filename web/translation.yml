@@ -6,6 +6,6 @@ components:
   - name: merchant
     audience: merchant
     scheme: react
-    owners: ["@Shopify/client-libraries-app-templates"]
+    owners: ["@Shopify/web-libraries-app-templates"]
     paths:
       - locales/**/{{language}}.json
