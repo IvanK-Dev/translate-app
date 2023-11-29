@@ -2,8 +2,10 @@ import express from "express";
 import contrs from "../../controllers/products/index.js";
 const router = express.Router();
 
-router.get("/products/count", contrs.countProducts)
+router.get("/count", contrs.countProducts);
 
-router.get("/products/create", contrs.createProduct);
+router.get("/create", contrs.createProduct);
+
+router.post("/", contrs.getProducts);
 
 export default router;

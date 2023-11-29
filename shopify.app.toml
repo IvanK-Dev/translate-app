@@ -2,7 +2,7 @@
 
 name = "translate-app"
 client_id = "76d7490ead990cccfd8fb2b06516e62b"
-application_url = "https://mississippi-gradually-arrangements-maximum.trycloudflare.com"
+application_url = "https://attach-alabama-boating-close.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,10 +11,10 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://mississippi-gradually-arrangements-maximum.trycloudflare.com/auth/callback",
-  "https://mississippi-gradually-arrangements-maximum.trycloudflare.com/auth/shopify/callback",
-  "https://mississippi-gradually-arrangements-maximum.trycloudflare.com/api/auth/callback",
-  "https://mississippi-gradually-arrangements-maximum.trycloudflare.com/.shopify/graphiql/auth/callback"
+  "https://attach-alabama-boating-close.trycloudflare.com/auth/callback",
+  "https://attach-alabama-boating-close.trycloudflare.com/auth/shopify/callback",
+  "https://attach-alabama-boating-close.trycloudflare.com/api/auth/callback",
+  "https://attach-alabama-boating-close.trycloudflare.com/.shopify/graphiql/auth/callback"
 ]
 
 [webhooks]
