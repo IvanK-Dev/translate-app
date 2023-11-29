@@ -1,0 +1,28 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+name = "translate-app"
+client_id = "1aa7fa129671833ee6d1c04b4afb3200"
+application_url = "https://mature-nominations-enjoy-moses.trycloudflare.com"
+embedded = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products"
+
+[auth]
+redirect_urls = [
+  "https://mature-nominations-enjoy-moses.trycloudflare.com/auth/callback",
+  "https://mature-nominations-enjoy-moses.trycloudflare.com/auth/shopify/callback",
+  "https://mature-nominations-enjoy-moses.trycloudflare.com/api/auth/callback",
+  "https://mature-nominations-enjoy-moses.trycloudflare.com/.shopify/graphiql/auth/callback"
+]
+
+[webhooks]
+api_version = "2023-10"
+
+[pos]
+embedded = false
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "chechir31515615611.myshopify.com"

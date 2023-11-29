@@ -1,6 +1,7 @@
 import { Card, Page, Layout, TextContainer, Text } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { useTranslation } from "react-i18next";
+import FirstLayout from "../components/FirstLayout/FirstLayout";
 
 export default function PageName() {
   const { t } = useTranslation();
@@ -19,7 +20,8 @@ export default function PageName() {
           },
         ]}
       />
-      <Layout>
+      <FirstLayout/>
+      {/* <Layout>
         <Layout.Section>
           <Card sectioned>
             <Text variant="headingMd" as="h2">
@@ -48,7 +50,7 @@ export default function PageName() {
             </TextContainer>
           </Card>
         </Layout.Section>
-      </Layout>
+      </Layout> */}
     </Page>
   );
 }
