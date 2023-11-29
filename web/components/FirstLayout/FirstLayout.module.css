@@ -1,0 +1,24 @@
+[class*=Polaris-Icon] {
+    margin: 0;
+}
+
+button{
+    appearance: none;
+    background: none;
+    background-color: var(--p-color-bg-fill);
+    border: none;
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    text-align: initial;
+    text-decoration: none;
+    transition: background-color var(--p-motion-duration-100) ease-in-out;
+    width: 100%;
+}
+
+button:hover,button:focus{
+    background-color: var(--p-color-bg-fill-hover);
+}

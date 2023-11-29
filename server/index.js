@@ -49,7 +49,7 @@ app.get("/api/products/count", async (_req, res) => {
 app.get("/api/products/create", async (_req, res) => {
   let status = 200;
   let error = null;
-
+  
   try {
     await productCreator(res.locals.shopify.session);
   } catch (e) {
@@ -60,13 +60,30 @@ app.get("/api/products/create", async (_req, res) => {
   res.status(status).send({ success: status === 200, error });
 });
 
+//TEst
+app.get("/api/products/all", async (_req, res) => {
+  const countData = await shopify.api.rest.Product.all({
+    session: res.locals.shopify.session,
+  });
+  res.status(200).send(countData);
+});
+//TEst
+app.get("/api/shop", async (_req, res) => {
+  const {data} = await shopify.api.rest.Shop.all({
+    session: res.locals.shopify.session,
+    fields:['name','primary_locale','domain']
+  });
+  res.status(200).send(data);
+});
+
+
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
 
 app.use("/*", shopify.ensureInstalledOnShop(), async (_req, res, _next) => {
   return res
-    .status(200)
-    .set("Content-Type", "text/html")
+  .status(200)
+  .set("Content-Type", "text/html")
     .send(readFileSync(join(STATIC_PATH, "index.html")));
 });
 

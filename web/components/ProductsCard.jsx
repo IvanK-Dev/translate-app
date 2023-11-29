@@ -50,6 +50,8 @@ export function ProductsCard() {
     }
   };
 
+
+
   return (
     <>
       {toastMarkup}
