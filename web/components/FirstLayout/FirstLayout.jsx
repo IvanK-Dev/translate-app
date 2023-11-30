@@ -13,9 +13,22 @@ import React from 'react';
 
 import './FirstLayout.module.css';
 import { useAppQuery } from '../../hooks';
-import {languages} from '../../constants'
+import { languages } from '../../constants';
+import { useNavigate } from '@shopify/app-bridge-react';
 
-function FirstLayout({shop}) {
+function FirstLayout() {
+  const navigate = useNavigate();
+
+const locale= useAppQuery({
+  url: '/api/shop_locales',
+  reactQueryOptions: {
+    onSuccess: () => {
+      setStatus(STATUS.success);
+    },
+  },
+});
+
+console.log('locale',locale)
 
   const buttonData = {
     Products: ['Collections', 'Products'],
@@ -43,8 +56,9 @@ function FirstLayout({shop}) {
   const generateItems = (data) => {
     const keys = Object.keys(buttonData);
 
-    const handleOnClick = (path) => {
-      console.log('path', path);
+    const handleOnClick = (str) => {
+      str = str.trim().toLowerCase().replace(/\s+/g, '-').replace(/s$/, '');
+      navigate(`/localize/${str}`);
     };
 
     return (
@@ -65,7 +79,7 @@ function FirstLayout({shop}) {
             >
               <Text variant="headingSm">{key}</Text>
             </Box>
-           { buttonData[key].length > 0
+            {buttonData[key].length > 0
               ? buttonData[key].map((subKey, index) => (
                   <button
                     type="button"
@@ -110,19 +124,19 @@ function FirstLayout({shop}) {
         </Layout.Section>
         <Layout.Section variant="oneThird">
           <Card sectioned>
-            { <h2>{languages[`${shop.data[0].primary_locale}`]}</h2>}
+            {/* {<h2>{languages[`${shop.data[0].primary_locale}`]}</h2>} */}
             <p>
               Your default language is visible to all customers. Versions
               customized for markets are only visible to customers in those
               markets.
             </p>
           </Card>
-          <Card sectioned>
+          {/* <Card sectioned>
             <h2>Get started guide</h2>
             <p>
               Learn all about content localization with our quick start guide.
             </p>
-          </Card>
+          </Card> */}
         </Layout.Section>
       </Layout>
     </Box>
