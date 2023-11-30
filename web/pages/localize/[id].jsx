@@ -52,7 +52,6 @@ const LocalizePage = () => {
   useMemo(() => {
     try {
       const pagination = data[endpoint].pageInfo;
-      console.log(pagination);
 
       setPagination(pagination);
     } catch (error) {
