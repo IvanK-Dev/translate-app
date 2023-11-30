@@ -1,33 +1,51 @@
 import {
-  Page,
   Layout,
   Card,
   Box,
   BlockStack,
   Text,
   InlineStack,
-  Button,
   Icon,
+  Divider,
 } from '@shopify/polaris';
 import { ChevronRightMinor } from '@shopify/polaris-icons';
 import React from 'react';
 
-function FirstLayout() {
-  const data = {
-    products: {
-      collections: {},
-      products: {},
-    },
-    online_store: {
-      blog_posts: {},
-      blog_titles: {},
-      filters: {},
-      metaobjects: {},
-    },
+import './FirstLayout.module.css';
+import { useAppQuery } from '../../hooks';
+import {languages} from '../../constants'
+
+function FirstLayout({shop}) {
+
+  const buttonData = {
+    Products: ['Collections', 'Products'],
+    'Online Store': [
+      'Blog posts',
+      'Blog titles',
+      'Filters',
+      'Metaobjects',
+      'Navigation',
+      'Pages',
+      'Policies',
+      'Store metadata',
+    ],
+    Theme: [
+      'App embeds',
+      'Default theme content',
+      'Section groups',
+      'Static sections',
+      'Templates',
+      'Theme settings',
+    ],
+    Settings: ['Notifications', 'Shipping and delivery'],
   };
 
   const generateItems = (data) => {
-    const keys = Object.keys(data);
+    const keys = Object.keys(buttonData);
+
+    const handleOnClick = (path) => {
+      console.log('path', path);
+    };
 
     return (
       <>
@@ -35,8 +53,8 @@ function FirstLayout() {
           <React.Fragment key={index}>
             <Box
               key={key}
-              variant="headingSm"
               as="h2"
+              background="bg-surface-secondary"
               borderColor="border-secondary"
               borderStyle="solid"
               borderBlockEndWidth="025"
@@ -45,33 +63,35 @@ function FirstLayout() {
               paddingInlineStart={'400'}
               paddingInlineEnd={'400'}
             >
-              {key}
+              <Text variant="headingSm">{key}</Text>
             </Box>
-            {Object.keys(data[key]).length > 0
-              ? Object.keys(data[key]).map((subKey, index) => (
-                  <Box
+           { buttonData[key].length > 0
+              ? buttonData[key].map((subKey, index) => (
+                  <button
+                    type="button"
                     key={`${index} ${subKey}`}
-                    borderColor="border-secondary"
-                    borderStyle="solid"
-                    borderBlockEndWidth="025"
-                    paddingBlockStart={'300'}
-                    paddingBlockEnd={'300'}
-                    paddingInlineStart={'400'}
-                    paddingInlineEnd={'400'}
+                    onClick={() => handleOnClick(subKey)}
                   >
-                    <Button key={subKey} fullWidth textAlign="left">
-                      <Box>
-                        <InlineStack align="space-between" blockAlign="center">
-                          <InlineStack gap={'200'}>
-                            <BlockStack gap={'100'}>
-                              <Text>{subKey}</Text>
-                            </BlockStack>
-                          </InlineStack>
-                          <Icon tone="base" source={ChevronRightMinor} />
+                    <Box padding={{ xs: '400' }}>
+                      <InlineStack
+                        align="space-between"
+                        blockAlign="center"
+                        wrap="nowrap"
+                      >
+                        <InlineStack>
+                          <Box>
+                            <Text>{subKey}</Text>
+                          </Box>
                         </InlineStack>
-                      </Box>
-                    </Button>
-                  </Box>
+                        <Icon
+                          source={ChevronRightMinor}
+                          tone="base"
+                          style={{ margin: 0 }}
+                        />
+                      </InlineStack>
+                    </Box>
+                    <Divider />
+                  </button>
                 ))
               : null}
           </React.Fragment>
@@ -80,17 +100,17 @@ function FirstLayout() {
     );
   };
 
-  const blockStackItems = generateItems(data);
+  const blockStackItems = generateItems(buttonData);
 
   return (
     <Box>
       <Layout>
         <Layout.Section>
-          <BlockStack gap="500">{blockStackItems}</BlockStack>
+          <BlockStack>{blockStackItems}</BlockStack>
         </Layout.Section>
         <Layout.Section variant="oneThird">
           <Card sectioned>
-            <h2>English</h2>
+            { <h2>{languages[`${shop.data[0].primary_locale}`]}</h2>}
             <p>
               Your default language is visible to all customers. Versions
               customized for markets are only visible to customers in those

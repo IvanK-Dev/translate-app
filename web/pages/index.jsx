@@ -2,7 +2,7 @@ import {
   Card,
   Page,
   Layout,
-  //TextContainer,
+  // TextContainer,
   // Image,
   // Stack,
   // Link,
@@ -19,7 +19,7 @@ export default function HomePage() {
   const { t } = useTranslation();
   return (
     <Page narrowWidth>
-      <TitleBar title={t("HomePage.title")} primaryAction={null} />
+      <TitleBar title={t("Shop")} primaryAction={null} />
       <Layout>
         <Layout.Section>
           <Card sectioned>

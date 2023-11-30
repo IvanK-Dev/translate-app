@@ -8,4 +8,6 @@ router.get("/create", contrs.createProduct);
 
 router.post("/", contrs.getProducts);
 
+router.get("/all", contrs.getAllProducts);
+
 export default router;

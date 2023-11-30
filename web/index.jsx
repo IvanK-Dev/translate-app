@@ -5,5 +5,10 @@ import { initI18n } from "./utils/i18nUtils.js";
 
 // Ensure that locales are loaded before rendering the app
 initI18n().then(() => {
-  ReactDOM.createRoot(document.getElementById("app")).render(<App />);
+  const root = ReactDOM.createRoot(document.getElementById('app'));
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
 });

@@ -6,6 +6,7 @@ import serveStatic from "serve-static";
 import errorHandler from "./helpers/errorHandler.js";
 import authRouter from "./routes/auth/authRouter.js";
 import productsRouter from "./routes/api/productsRouter.js";
+import shopRouter from "./routes/api/shopRouter.js";
 import shopify from "./shopify.js";
 
 const PORT = parseInt(
@@ -28,15 +29,16 @@ app.use("/api/*", shopify.validateAuthenticatedSession());
 
 app.use(express.json());
 
-app.use("/api/products", productsRouter);
+app.use('/api/products', productsRouter)
+app.use("/api/shop", shopRouter);
 
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
 
 app.use("/*", shopify.ensureInstalledOnShop(), async (_req, res, _next) => {
   return res
-    .status(200)
-    .set("Content-Type", "text/html")
+  .status(200)
+  .set("Content-Type", "text/html")
     .send(readFileSync(join(STATIC_PATH, "index.html")));
 });
 

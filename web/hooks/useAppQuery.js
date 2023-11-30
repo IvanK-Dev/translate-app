@@ -1,6 +1,6 @@
-import { useAuthenticatedFetch } from "./useAuthenticatedFetch.js";
-import { useMemo } from "react";
-import { useQuery } from "react-query";
+import { useAuthenticatedFetch } from './useAuthenticatedFetch.js';
+import { useMemo } from 'react';
+import { useQuery } from 'react-query';
 
 /**
  * A hook for querying your custom app data.
