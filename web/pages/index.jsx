@@ -2,11 +2,11 @@ import {
   Card,
   Page,
   Layout,
-  TextContainer,
-  Image,
-  Stack,
-  Link,
-  Text,
+  // TextContainer,
+  // Image,
+  // Stack,
+  // Link,
+  // Text,
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
 import { useTranslation, Trans } from "react-i18next";
@@ -19,11 +19,11 @@ export default function HomePage() {
   const { t } = useTranslation();
   return (
     <Page narrowWidth>
-      <TitleBar title={t("HomePage.title")} primaryAction={null} />
+      <TitleBar title={t("Shop")} primaryAction={null} />
       <Layout>
         <Layout.Section>
           <Card sectioned>
-            <Stack
+            {/* <Stack
               wrap={false}
               spacing="extraTight"
               distribution="trailing"
@@ -81,7 +81,7 @@ export default function HomePage() {
                   />
                 </div>
               </Stack.Item>
-            </Stack>
+            </Stack> */}
           </Card>
         </Layout.Section>
         <Layout.Section>
