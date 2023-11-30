@@ -1,54 +1,44 @@
-import { Card, Page, Layout, TextContainer, Text } from "@shopify/polaris";
-import { TitleBar } from "@shopify/app-bridge-react";
-import { useTranslation } from "react-i18next";
+import { Card, Page, Layout, TextContainer, Text } from '@shopify/polaris';
+import { Loading, TitleBar } from '@shopify/app-bridge-react';
+import { useTranslation } from 'react-i18next';
+import FirstLayout from '../components/FirstLayout/FirstLayout';
+import { useAppQuery } from '../hooks';
+import { STATUS } from '../constants';
+import { useState } from 'react';
 
 export default function PageName() {
+  const [status, setStatus] = useState(STATUS.idle);
   const { t } = useTranslation();
-  return (
+
+  const shop = useAppQuery({
+    url: '/api/shop',
+    reactQueryOptions: {
+      onSuccess: () => {
+        console.log('useAppQuery', 'onSuccess');
+        setStatus(STATUS.success);
+        //setIsLoading(false);
+      },
+    },
+  });
+
+  return status === STATUS.success ? (
     <Page>
       <TitleBar
-        title={t("PageName.title")}
+        title={shop.data[0].name}
         primaryAction={{
-          content: t("PageName.primaryAction"),
-          onAction: () => console.log("Primary action"),
+          content: t('PageName.primaryAction'),
+          onAction: () => console.log('Primary action'),
         }}
         secondaryActions={[
           {
-            content: t("PageName.secondaryAction"),
-            onAction: () => console.log("Secondary action"),
+            content: t('PageName.secondaryAction'),
+            onAction: () => console.log('Secondary action'),
           },
         ]}
       />
-      <Layout>
-        <Layout.Section>
-          <Card sectioned>
-            <Text variant="headingMd" as="h2">
-              {t("PageName.heading")}
-            </Text>
-            <TextContainer>
-              <p>{t("PageName.body")}</p>
-            </TextContainer>
-          </Card>
-          <Card sectioned>
-            <Text variant="headingMd" as="h2">
-              {t("PageName.heading")}
-            </Text>
-            <TextContainer>
-              <p>{t("PageName.body")}</p>
-            </TextContainer>
-          </Card>
-        </Layout.Section>
-        <Layout.Section secondary>
-          <Card sectioned>
-            <Text variant="headingMd" as="h2">
-              {t("PageName.heading")}
-            </Text>
-            <TextContainer>
-              <p>{t("PageName.body")}</p>
-            </TextContainer>
-          </Card>
-        </Layout.Section>
-      </Layout>
+      <FirstLayout shop={shop}/>
     </Page>
+  ) : (
+    <Loading />
   );
 }
