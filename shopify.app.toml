@@ -2,19 +2,19 @@
 
 name = "translate-app"
 client_id = "76d7490ead990cccfd8fb2b06516e62b"
-application_url = "https://prayers-cookbook-po-thunder.trycloudflare.com"
+application_url = "https://reproduced-registrar-engine-identifier.trycloudflare.com"
 embedded = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_products"
+scopes = "write_products,read_products,read_locales,read_translations,write_translations"
 
 [auth]
 redirect_urls = [
-  "https://prayers-cookbook-po-thunder.trycloudflare.com/auth/callback",
-  "https://prayers-cookbook-po-thunder.trycloudflare.com/auth/shopify/callback",
-  "https://prayers-cookbook-po-thunder.trycloudflare.com/api/auth/callback",
-  "https://prayers-cookbook-po-thunder.trycloudflare.com/.shopify/graphiql/auth/callback"
+  "https://reproduced-registrar-engine-identifier.trycloudflare.com/auth/callback",
+  "https://reproduced-registrar-engine-identifier.trycloudflare.com/auth/shopify/callback",
+  "https://reproduced-registrar-engine-identifier.trycloudflare.com/api/auth/callback",
+  "https://reproduced-registrar-engine-identifier.trycloudflare.com/.shopify/graphiql/auth/callback"
 ]
 
 [webhooks]
