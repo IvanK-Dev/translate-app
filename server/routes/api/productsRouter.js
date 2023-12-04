@@ -6,7 +6,7 @@ router.get("/count", contrs.countProducts);
 
 router.get("/create", contrs.createProduct);
 
-router.post("/", contrs.getProducts);
+//router.post("/", contrs.getProducts);
 
 router.get("/all", contrs.getAllProducts);
 

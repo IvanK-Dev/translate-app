@@ -4,4 +4,6 @@ const router = express.Router();
 
 router.get("/", contrs.getShop);
 
+router.get("/locales", contrs.getLocales);
+
 export default router;
