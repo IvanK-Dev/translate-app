@@ -71,21 +71,21 @@ app.get('/api/shop_locales', async (_req, res) => {
   const client = new shopify.api.clients.Graphql({
     session: res.locals.shopify.session,
   });
-  const data = await client.query({
-    data: `query {
-    shopLocales {
-      locale
-      primary
-      published
-    }
-  }`,
-  });
-  // const {data} = await shopify.clients.Graphql
-  // api.rest.Shop.all({
-  //   session: res.locals.shopify.session,
-  //   fields:['name','primary_locale','domain']
-  // });
-  res.status(200).send(data);
+  try {
+    const data = await client.query({
+      data: `query {
+      shopLocales {
+        locale
+        primary
+        published
+      }
+    }`,
+    });
+    
+    res.status(200).send(data);
+  } catch (error) {
+console.log("Question ERROR !!!!!!!!!!!!!!!!",error)    
+  }
 });
 
 //TEst

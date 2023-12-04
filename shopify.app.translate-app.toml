@@ -2,19 +2,19 @@
 
 name = "translate-app"
 client_id = "1aa7fa129671833ee6d1c04b4afb3200"
-application_url = "https://desktop-minor-early-curriculum.trycloudflare.com"
+application_url = "https://others-automotive-emission-phoenix.trycloudflare.com"
 embedded = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_products"
+scopes = "write_products,read_products,read_locales,read_translations,write_translations"
 
 [auth]
 redirect_urls = [
-  "https://desktop-minor-early-curriculum.trycloudflare.com/auth/callback",
-  "https://desktop-minor-early-curriculum.trycloudflare.com/auth/shopify/callback",
-  "https://desktop-minor-early-curriculum.trycloudflare.com/api/auth/callback",
-  "https://desktop-minor-early-curriculum.trycloudflare.com/.shopify/graphiql/auth/callback"
+  "https://others-automotive-emission-phoenix.trycloudflare.com/auth/callback",
+  "https://others-automotive-emission-phoenix.trycloudflare.com/auth/shopify/callback",
+  "https://others-automotive-emission-phoenix.trycloudflare.com/api/auth/callback",
+  "https://others-automotive-emission-phoenix.trycloudflare.com/.shopify/graphiql/auth/callback"
 ]
 
 [webhooks]
