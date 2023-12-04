@@ -1,4 +1,5 @@
 import shopify from "../../shopify.js";
+import { QUERIES } from "../../consts/queries.js";
 
 const getEntity = async (req, res) => {
   const { entity } = req.params;
@@ -13,33 +14,7 @@ const getEntity = async (req, res) => {
     session: res.locals.shopify.session,
   });
 
-  const queryDirection =
-    direction === "forward"
-      ? "(first: $numEntities, after: $cursor)"
-      : "(last: $numEntities, before: $cursor)";
-
-  const query = `
-      query ($numEntities: Int!, $cursor: String) {
-        ${entity}${queryDirection} {
-          edges {
-            node {
-              id
-              title
-              ${entity === "products" ? "featuredImage" : "image"} {
-                altText
-                url
-              }
-            }
-          }
-          pageInfo {
-            hasNextPage
-            hasPreviousPage
-            startCursor
-            endCursor
-          }
-        }
-      }
-    `;
+  const query = QUERIES[entity](direction);
 
   const response = await client.query({
     data: {

@@ -54,7 +54,7 @@ function FirstLayout() {
     const keys = Object.keys(buttonData);
 
     const handleOnClick = (str) => {
-      str = str.trim().toLowerCase().replace(/\s+/g, "-").replace(/s$/, "");
+      str = str.trim().toLowerCase().replace(/\s+/g, "_").replace(/s$/, "");
       navigate(`/localize/${str}`);
     };
 
