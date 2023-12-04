@@ -33,6 +33,11 @@ const LocalizePage = () => {
           },
         });
 
+        if (!response.ok) {
+          console.error(`Request failed with status ${response.status}`);
+          return null;
+        }
+
         return await response.json();
       } catch (error) {
         console.error(error);

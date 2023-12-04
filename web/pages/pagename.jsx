@@ -14,9 +14,7 @@ export default function PageName() {
     url: '/api/shop',
     reactQueryOptions: {
       onSuccess: () => {
-        console.log('useAppQuery', 'onSuccess');
         setStatus(STATUS.success);
-        //setIsLoading(false);
       },
     },
   });
