@@ -17,13 +17,14 @@ const LocalizePage = () => {
 
   const location = useLocation().pathname.split("/").pop();
   const endpoint = `${location}s`;
+  const url = `/api/${endpoint}`;
 
-  const getItems = useFetch(`/api/${endpoint}`).post;
+  const getItems = useFetch().post;
 
   useEffect(() => {
     const fetchData = async () => {
       setData(
-        await getItems({
+        await getItems(url, {
           quantity: 10,
           cursor: null,
           direction: "forward",
@@ -95,7 +96,7 @@ const LocalizePage = () => {
                 hasNext={pagination.hasNextPage}
                 onNext={async () =>
                   setData(
-                    await getItems({
+                    await getItems(url, {
                       quantity: 10,
                       cursor: pagination.endCursor,
                       direction: "forward",
@@ -105,7 +106,7 @@ const LocalizePage = () => {
                 hasPrevious={pagination.hasPreviousPage}
                 onPrevious={async () =>
                   setData(
-                    await getItems({
+                    await getItems(url, {
                       quantity: 10,
                       cursor: pagination.startCursor,
                       direction: "backward",

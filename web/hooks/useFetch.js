@@ -1,9 +1,9 @@
 import { useAuthenticatedFetch } from "./useAuthenticatedFetch.js";
 
-export const useFetch = (url) => {
+export const useFetch = () => {
   const appFetch = useAuthenticatedFetch();
 
-  const func = async (method = "GET", body) => {
+  const func = async (url, method = "GET", body = null) => {
     try {
       const fetchOptions = {
         method,
@@ -27,10 +27,10 @@ export const useFetch = (url) => {
   };
 
   return {
-    get: async () => await func(),
-    post: async (body) => await func("POST", body),
-    put: async (body) => await func("PUT", body),
-    patch: async (body) => await func("PATCH", body),
-    delete: async () => await func("DELETE"),
+    get: async (url) => await func(url, "GET"),
+    post: async (url, body) => await func(url, "POST", body),
+    put: async (url, body) => await func(url, "PUT", body),
+    patch: async (url, body) => await func(url, "PATCH", body),
+    delete: async (url) => await func(url, "DELETE"),
   };
 };
