@@ -27,10 +27,10 @@ export const useFetch = (url) => {
   };
 
   return {
-    get: async (body) => await func(body),
+    get: async () => await func(),
     post: async (body) => await func("POST", body),
     put: async (body) => await func("PUT", body),
     patch: async (body) => await func("PATCH", body),
-    delete: async (body) => await func("DELETE", body),
+    delete: async () => await func("DELETE"),
   };
 };
