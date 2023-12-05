@@ -71,75 +71,80 @@ function FirstLayout() {
     Settings: ['Notifications', 'Shipping and delivery'],
   };
 
-  const generateItems = useCallback((data) => {
-    const keys = Object.keys(buttonData);
+  const generateItems = useCallback(
+    (data) => {
+      const keys = Object.keys(buttonData);
 
-    const handleOnClick = (str) => {
-      str = str.trim().toLowerCase().replace(/\s+/g, '-').replace(/s$/, '');
-      navigate(`/localize/${str}`);
-    };
+      const handleOnClick = (str) => {
+        str = str.trim().toLowerCase().replace(/\s+/g, '-').replace(/s$/, '');
+        navigate(`/localize/${str}`);
+      };
 
-    return (
-      <>
-        {keys.map((key, index) => (
-          <React.Fragment key={index}>
-            <Box
-              key={key}
-              as="h2"
-              background="bg-surface-secondary"
-              borderColor="border-secondary"
-              borderStyle="solid"
-              borderBlockEndWidth="025"
-              paddingBlockStart={'300'}
-              paddingBlockEnd={'300'}
-              paddingInlineStart={'400'}
-              paddingInlineEnd={'400'}
-            >
-              <Text variant="headingSm">{key}</Text>
-            </Box>
-            {buttonData[key].length > 0
-              ? buttonData[key].map((subKey, index) => (
-                  <button
-                    type="button"
-                    key={`${index} ${subKey}`}
-                    onClick={() => handleOnClick(subKey)}
-                  >
-                    <Box padding={{ xs: '400' }}>
-                      <InlineStack
-                        align="space-between"
-                        blockAlign="center"
-                        wrap="nowrap"
-                      >
-                        <InlineStack>
-                          <Box>
-                            <Text>{subKey}</Text>
-                          </Box>
+      return (
+        <>
+          {keys.map((key, index) => (
+            <React.Fragment key={index}>
+              <Box
+                key={key}
+                as="h2"
+                background="bg-surface-secondary"
+                borderColor="border-secondary"
+                borderStyle="solid"
+                borderBlockEndWidth="025"
+                paddingBlockStart={'300'}
+                paddingBlockEnd={'300'}
+                paddingInlineStart={'400'}
+                paddingInlineEnd={'400'}
+              >
+                <Text variant="headingSm">{key}</Text>
+              </Box>
+              {buttonData[key].length > 0
+                ? buttonData[key].map((subKey, index) => (
+                    <button
+                      type="button"
+                      key={`${index} ${subKey}`}
+                      onClick={() => handleOnClick(subKey)}
+                    >
+                      <Box padding={{ xs: '400' }}>
+                        <InlineStack
+                          align="space-between"
+                          blockAlign="center"
+                          wrap="nowrap"
+                        >
+                          <InlineStack>
+                            <Box>
+                              <Text>{subKey}</Text>
+                            </Box>
+                          </InlineStack>
+                          <Icon
+                            source={ChevronRightMinor}
+                            tone="base"
+                            style={{ margin: 0 }}
+                          />
                         </InlineStack>
-                        <Icon
-                          source={ChevronRightMinor}
-                          tone="base"
-                          style={{ margin: 0 }}
-                        />
-                      </InlineStack>
-                    </Box>
-                    <Divider />
-                  </button>
-                ))
-              : null}
-          </React.Fragment>
-        ))}
-      </>
-    );
-  },[buttonData, navigate]);
+                      </Box>
+                      <Divider />
+                    </button>
+                  ))
+                : null}
+            </React.Fragment>
+          ))}
+        </>
+      );
+    },
+    [buttonData, navigate]
+  );
 
   const blockStackItems = generateItems(buttonData);
 
   return (
     <Box>
-      <Box>
-        {locales.length > 0 && (
-          <LanguageSelector locales={locales} setLocales={setLocales} />
-        )}
+      <Box paddingBlockStart={'300'} paddingBlockEnd={'300'}>
+        <BlockStack inlineAlign="center">
+          {locales.length > 0 && (
+            <LanguageSelector locales={locales} setLocales={setLocales} />
+          )}
+        </BlockStack>
       </Box>
       <Layout>
         <Layout.Section>
