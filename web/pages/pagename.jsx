@@ -21,7 +21,7 @@ export default function PageName() {
 
   return status === STATUS.success ? (
     <Page>
-      <TitleBar
+      {/* <TitleBar
         title={shop.data[0].name}
         primaryAction={{
           content: t('PageName.primaryAction'),
@@ -33,7 +33,13 @@ export default function PageName() {
             onAction: () => console.log('Secondary action'),
           },
         ]}
-      />
+        thirdActions={[
+          {
+            content: t('PageName.secondaryAction'),
+            onAction: () => console.log('Third action'),
+          },
+        ]}
+      /> */}
       <FirstLayout shop={shop}/>
     </Page>
   ) : (

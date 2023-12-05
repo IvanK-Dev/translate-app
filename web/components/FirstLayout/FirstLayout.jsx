@@ -7,54 +7,75 @@ import {
   InlineStack,
   Icon,
   Divider,
-} from "@shopify/polaris";
-import { ChevronRightMinor } from "@shopify/polaris-icons";
-import React, { useMemo } from "react";
+  Button,
+  Badge,
+} from '@shopify/polaris';
+import { ChevronRightMinor } from '@shopify/polaris-icons';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import "./FirstLayout.module.css";
-import { useAppQuery } from "../../hooks";
-import { languages } from "../../constants";
-import { useNavigate } from "@shopify/app-bridge-react";
+import './FirstLayout.module.css';
+import { useAppQuery } from '../../hooks';
+import { languages } from '../../constants';
+import { useNavigate } from '@shopify/app-bridge-react';
+import LanguageSelector from './LanguageSelector/LanguageSelector';
+import { useFetch } from '../../hooks/useFetch';
 
 function FirstLayout() {
   const navigate = useNavigate();
+  const query = useFetch();
+  const [locales, setLocales] = useState([]);
 
-  const locales = useAppQuery({
-    url: "/api/shop/locales",
-  });
+  // const locales = useAppQuery({
+  //   url: "/api/shop/locales",
+  // });
+
+  useEffect(() => {
+    const fetchLocales = async () => {
+      try {
+        const localesData = await query.get('/api/shop/locales');
+        setLocales(localesData);
+      } catch (error) {
+        console.error('Error fetching locales:', error);
+      }
+    };
+
+    fetchLocales();
+  }, []);
 
   const primaryLocale = useMemo(() => {
     return locales.data?.find((item) => item.primary)?.locale;
   }, [locales]);
 
+  console.log(locales);
+
   const buttonData = {
-    Products: ["Collections", "Products"],
-    "Online Store": [
-      "Blog posts",
-      "Blog titles",
-      "Filters",
-      "Metaobjects",
-      "Navigation",
-      "Pages",
-      "Policies",
-      "Store metadata",
+    Products: ['Collections', 'Products'],
+    'Online Store': [
+      'Blog posts',
+      'Blog titles',
+      'Filters',
+      'Metaobjects',
+      'Navigation',
+      'Pages',
+      'Policies',
+      'Store metadata',
     ],
     Theme: [
-      "App embeds",
-      "Default theme content",
-      "Section groups",
-      "Static sections",
-      "Templates",
-      "Theme settings",
+      'App embeds',
+      'Default theme content',
+      'Section groups',
+      'Static sections',
+      'Templates',
+      'Theme settings',
     ],
-    Settings: ["Notifications", "Shipping and delivery"],
+    Settings: ['Notifications', 'Shipping and delivery'],
   };
 
-  const generateItems = (data) => {
+  const generateItems = useCallback((data) => {
     const keys = Object.keys(buttonData);
 
     const handleOnClick = (str) => {
-      str = str.trim().toLowerCase().replace(/\s+/g, "_").replace(/s$/, "");
+      str = str.trim().toLowerCase().replace(/\s+/g, '_').replace(/s$/, '');
       navigate(`/localize/${str}`);
     };
 
@@ -69,10 +90,10 @@ function FirstLayout() {
               borderColor="border-secondary"
               borderStyle="solid"
               borderBlockEndWidth="025"
-              paddingBlockStart={"300"}
-              paddingBlockEnd={"300"}
-              paddingInlineStart={"400"}
-              paddingInlineEnd={"400"}
+              paddingBlockStart={'300'}
+              paddingBlockEnd={'300'}
+              paddingInlineStart={'400'}
+              paddingInlineEnd={'400'}
             >
               <Text variant="headingSm">{key}</Text>
             </Box>
@@ -83,7 +104,7 @@ function FirstLayout() {
                     key={`${index} ${subKey}`}
                     onClick={() => handleOnClick(subKey)}
                   >
-                    <Box padding={{ xs: "400" }}>
+                    <Box padding={{ xs: '400' }}>
                       <InlineStack
                         align="space-between"
                         blockAlign="center"
@@ -109,19 +130,26 @@ function FirstLayout() {
         ))}
       </>
     );
-  };
+  },[buttonData, navigate]);
 
   const blockStackItems = generateItems(buttonData);
 
   return (
     <Box>
+      <Box>
+        {locales.length > 0 && (
+          <LanguageSelector locales={locales} setLocales={setLocales} />
+        )}
+      </Box>
       <Layout>
         <Layout.Section>
           <BlockStack>{blockStackItems}</BlockStack>
         </Layout.Section>
         <Layout.Section variant="oneThird">
           <Card sectioned>
-            <h2>{languages[primaryLocale]}</h2>
+            <h2>
+              {languages[primaryLocale]} <Badge>Default</Badge>{' '}
+            </h2>
             <p>
               Your default language is visible to all customers. Versions
               customized for markets are only visible to customers in those

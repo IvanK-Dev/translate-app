@@ -2,7 +2,7 @@
 
 name = "translate-app"
 client_id = "1aa7fa129671833ee6d1c04b4afb3200"
-application_url = "https://others-automotive-emission-phoenix.trycloudflare.com"
+application_url = "https://pest-rap-billy-trainer.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,10 +11,10 @@ scopes = "write_products,read_products,read_locales,read_translations,write_tran
 
 [auth]
 redirect_urls = [
-  "https://others-automotive-emission-phoenix.trycloudflare.com/auth/callback",
-  "https://others-automotive-emission-phoenix.trycloudflare.com/auth/shopify/callback",
-  "https://others-automotive-emission-phoenix.trycloudflare.com/api/auth/callback",
-  "https://others-automotive-emission-phoenix.trycloudflare.com/.shopify/graphiql/auth/callback"
+  "https://pest-rap-billy-trainer.trycloudflare.com/auth/callback",
+  "https://pest-rap-billy-trainer.trycloudflare.com/auth/shopify/callback",
+  "https://pest-rap-billy-trainer.trycloudflare.com/api/auth/callback",
+  "https://pest-rap-billy-trainer.trycloudflare.com/.shopify/graphiql/auth/callback"
 ]
 
 [webhooks]
