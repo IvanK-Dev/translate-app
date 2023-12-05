@@ -19,6 +19,7 @@
     "@formatjs/intl-locale": "^3.3.2",
     "@formatjs/intl-localematcher": "^0.4.0",
     "@formatjs/intl-pluralrules": "^5.2.4",
+    "@reduxjs/toolkit": "^2.0.1",
     "@shopify/app-bridge": "^3.7.7",
     "@shopify/app-bridge-react": "^3.7.7",
     "@shopify/i18next-shopify": "^0.2.9",
@@ -30,6 +31,7 @@
     "react-dom": "^18.0.0",
     "react-i18next": "^13.0.0",
     "react-query": "^3.39.3",
+    "react-redux": "^9.0.1",
     "react-router-dom": "^6.20.0",
     "vite": "^4.3.9"
   },

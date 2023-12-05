@@ -11,37 +11,46 @@ import {
   Badge,
 } from '@shopify/polaris';
 import { ChevronRightMinor } from '@shopify/polaris-icons';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 import './FirstLayout.module.css';
-import { useAppQuery } from '../../hooks';
 import { languages } from '../../constants';
-import { useNavigate } from '@shopify/app-bridge-react';
+import { useAppBridge, useNavigate } from '@shopify/app-bridge-react';
 import LanguageSelector from './LanguageSelector/LanguageSelector';
-import { useFetch } from '../../hooks/useFetch';
+import { useDispatch } from 'react-redux';
+import { getLocalesThunk } from '../../redux/locales/localesThunk';
+import { setApptoState } from '../../redux/app/appSlice';
+import { selectLocalesArray } from '../../redux/locales/localesSelectors.js';
 
 function FirstLayout() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const query = useFetch();
+
+  const app = useAppBridge();
+
   const [locales, setLocales] = useState([]);
+  const locales1 = useSele(selectLocalesArray);
+  //const query = useFetch();
 
-  // const locales = useAppQuery({
-  //   url: "/api/shop/locales",
-  // });
+  dispatch(getLocalesThunk(app));
+  console.log('tmp', locales1);
+  // const fetchLocales = async () => {
+  //   try {
+  //     const localesData = await query.get('/api/shop/locales');
+  //     setLocales(localesData);
+  //   } catch (error) {
+  //     console.error('Error fetching locales:', error);
+  //   }
+  // };
+  // useEffect(() => {
 
-  useEffect(() => {
-    const fetchLocales = async () => {
-      try {
-        const localesData = await query.get('/api/shop/locales');
-        setLocales(localesData);
-      } catch (error) {
-        console.error('Error fetching locales:', error);
-      }
-    };
-
-    fetchLocales();
-  }, []);
-
+  //   fetchLocales();
+  // }, []);
   const primaryLocale = useMemo(() => {
     return locales.data?.find((item) => item.primary)?.locale;
   }, [locales]);
