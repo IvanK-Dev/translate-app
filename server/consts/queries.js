@@ -1,4 +1,5 @@
 const createQuery = (entity) => (direction) => {
+  const withImage = entity === "product" || entity === "collection";
   const queryEntity = entity.toUpperCase();
 
   const queryDirection =
@@ -6,9 +7,28 @@ const createQuery = (entity) => (direction) => {
       ? `(first: $numEntities, after: $cursor, resourceType: ${queryEntity})`
       : `(last: $numEntities, before: $cursor, resourceType: ${queryEntity})`;
 
+  const queryDirectionForImages =
+    direction === "forward"
+      ? `(first: $numEntities, after: $cursor)`
+      : `(last: $numEntities, before: $cursor)`;
+
+  const queryImages = `
+    images: ${entity}s${queryDirectionForImages} {
+      edges {
+        node {
+          id
+          ${entity === "product" ? "featuredImage" : "image"} {
+            altText
+            url
+          }
+        }
+      }
+    }
+  `;
+
   return `
-  query ($numEntities: Int!, $cursor: String) {
-    translatableResources${queryDirection} {
+  query CombinedQuery($numEntities: Int!, $cursor: String) {
+    resources: translatableResources${queryDirection} {
       edges {
         node {
           resourceId 
@@ -27,7 +47,9 @@ const createQuery = (entity) => (direction) => {
         endCursor
       }
     }
-  }`;
+    ${withImage ? queryImages : ""}
+  }
+  `;
 };
 
 export const QUERIES = {

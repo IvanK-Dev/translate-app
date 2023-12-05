@@ -39,22 +39,14 @@ const LocalizePage = () => {
 
   useMemo(() => {
     try {
-      const pagination = data?.translatableResources.pageInfo;
-
-      setPagination(pagination);
-    } catch (error) {
-      return {};
-    }
-  }, [data]);
-
-  useMemo(() => {
-    try {
-      const items = data?.translatableResources.edges.map(({ node }) => node);
+      const pagination = data?.pageInfo;
+      const items = data?.edges.map(({ node }) => node);
 
       setCurrentItem(items[0] || {});
+      setPagination(pagination);
       setItems(items);
     } catch (error) {
-      return [];
+      return {};
     }
   }, [data]);
 
@@ -78,7 +70,7 @@ const LocalizePage = () => {
           <ResourceList
             items={items}
             renderItem={(item) => {
-              const { resourceId: id } = item;
+              const { resourceId: id, image = "" } = item;
               const { value: title } = item?.translatableContent?.find(
                 (content) =>
                   content?.key === "title" ||
@@ -96,7 +88,7 @@ const LocalizePage = () => {
                   {active && <ActiveLabel />}
                   <ListItem
                     title={title}
-                    image={""}
+                    image={image}
                     withImage={
                       endpoint === "product" || endpoint === "collection"
                     }
@@ -105,7 +97,7 @@ const LocalizePage = () => {
               );
             }}
           />
-          {(pagination.hasNextPage || pagination.hasPreviousPage) && (
+          {(pagination?.hasNextPage || pagination?.hasPreviousPage) && (
             <Box padding="400">
               <BlockStack inlineAlign="center">
                 <Pagination

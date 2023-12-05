@@ -26,7 +26,25 @@ const getEntity = async (req, res) => {
     },
   });
 
-  return res.status(200).json(response.body.data);
+  const { resources, images } = response.body.data;
+  const combinedData = {
+    edges: resources.edges.map((resource) => {
+      const resourceId = resource.node.resourceId;
+      const imageNode = images?.edges.find((img) => img.node.id === resourceId);
+      const image = imageNode?.node.featuredImage || imageNode?.node.image;
+
+      return {
+        node: {
+          resourceId: resourceId,
+          translatableContent: resource.node.translatableContent,
+          image: image || null,
+        },
+      };
+    }),
+    pageInfo: resources.pageInfo, // Include the pageInfo from resourcesData
+  };
+
+  return res.status(200).json(combinedData);
 };
 
 export default getEntity;
