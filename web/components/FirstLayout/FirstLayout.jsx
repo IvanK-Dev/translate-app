@@ -66,14 +66,6 @@ function FirstLayout() {
       "Policies",
       "Store metadata",
     ],
-    Theme: [
-      "App embeds",
-      "Default theme content",
-      "Section groups",
-      "Static sections",
-      "Templates",
-      "Theme settings",
-    ],
     Settings: ["Notifications", "Shipping and delivery"],
   };
 

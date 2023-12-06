@@ -78,7 +78,8 @@ const LocalizePage = () => {
                 (content) =>
                   content?.key === "title" ||
                   content?.key === "label" ||
-                  content?.key === "meta_title"
+                  content?.key === "meta_title" ||
+                  content?.key === "name"
               ) || { value: "" };
               const active = currentItem?.resourceId === id;
 
@@ -90,7 +91,9 @@ const LocalizePage = () => {
                 >
                   {active && <ActiveLabel />}
                   <ListItem
-                    title={title}
+                    title={
+                      endpoint === "store_metadata" ? "Meta content" : title
+                    }
                     image={image}
                     withImage={
                       endpoint === "product" || endpoint === "collection"

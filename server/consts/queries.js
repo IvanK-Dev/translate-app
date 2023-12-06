@@ -63,12 +63,6 @@ export const QUERIES = {
   page: createQuery("online_store_page"),
   policie: createQuery("shop_policy"),
   store_metadata: createQuery("shop"),
-  app_embed: createQuery("online_store_theme_app_embed"),
-  default_theme_content: createQuery("online_store_theme_locale_content"),
-  section_group: createQuery("online_store_theme_section_group"),
-  static_section: createQuery("online_store_theme_settings_data_sections"),
-  template: createQuery("online_store_theme_template"),
-  theme_setting: createQuery("online_store_theme_settings_category"),
   notification: createQuery("email_template"),
-  shipping_and_delivery: createQuery("delivery_profile"),
+  shipping_and_delivery: createQuery("delivery_method_definition"),
 };
