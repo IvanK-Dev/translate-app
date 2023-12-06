@@ -1,5 +1,5 @@
-import { Card, Page, Layout, TextContainer, Text } from '@shopify/polaris';
-import { Loading, TitleBar } from '@shopify/app-bridge-react';
+import {  Page } from '@shopify/polaris';
+import { Loading } from '@shopify/app-bridge-react';
 import { useTranslation } from 'react-i18next';
 import FirstLayout from '../components/FirstLayout/FirstLayout';
 import { useAppQuery } from '../hooks';
@@ -20,8 +20,8 @@ export default function PageName() {
   });
 
   return status === STATUS.success ? (
-    <Page>
-      <TitleBar
+    <Page >
+      {/* <TitleBar
         title={shop.data[0].name}
         primaryAction={{
           content: t('PageName.primaryAction'),
@@ -33,7 +33,13 @@ export default function PageName() {
             onAction: () => console.log('Secondary action'),
           },
         ]}
-      />
+        thirdActions={[
+          {
+            content: t('PageName.secondaryAction'),
+            onAction: () => console.log('Third action'),
+          },
+        ]}
+      /> */}
       <FirstLayout shop={shop}/>
     </Page>
   ) : (

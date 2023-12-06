@@ -26,3 +26,5 @@ extensions/*/build
 
 # Node library SQLite database
 server/database.sqlite
+
+/web/public/tinymce/

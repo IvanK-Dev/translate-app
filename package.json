@@ -19,8 +19,6 @@
   "author": "zak",
   "private": true,
   "workspaces": [
-    "extensions/*",
-    "web",
-    "web/frontend"
+    "extensions/*"
   ]
 }

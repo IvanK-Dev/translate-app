@@ -1,54 +1,38 @@
 import {
   BlockStack,
   Box,
-  InlineStack,
   Pagination,
   ResourceItem,
   ResourceList,
-  Text,
-  Thumbnail,
 } from "@shopify/polaris";
-import { ImageMajor } from "@shopify/polaris-icons";
 import { useLocation } from "react-router-dom";
-import { useAuthenticatedFetch } from "../../hooks/index.js";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import TranslatableResourceTable from "../../components/TranslatableResourceTable/TranslatableResourceTable.jsx";
+import { ListItem } from "../../components/ListItem/ListItem.jsx";
+import { useFetch } from "../../hooks/useFetch.js";
+import { ActiveLabel } from "../../components/ActiveLabel/ActiveLabel.jsx";
 
 const LocalizePage = () => {
   const [data, setData] = useState({});
   const [items, setItems] = useState([]);
   const [pagination, setPagination] = useState({});
+  const [currentItem, setCurrentItem] = useState({});
 
   const location = useLocation().pathname.split("/").pop();
-  const endpoint = `${location}s`;
-  const appFetch = useAuthenticatedFetch();
+  const endpoint = `${location}`;
+  const url = `/api/${endpoint}`;
 
-  const getItems = useCallback(
-    async (quantity = 10, cursor = null, direction = "forward") => {
-      try {
-        const response = await appFetch(`/api/${endpoint}`, {
-          method: "POST",
-          body: JSON.stringify({ direction, quantity, cursor }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!response.ok) {
-          console.error(`Request failed with status ${response.status}`);
-          return null;
-        }
-
-        return await response.json();
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    [endpoint, appFetch]
-  );
+  const getItems = useFetch().post;
 
   useEffect(() => {
     const fetchData = async () => {
-      setData(await getItems());
+      setData(
+        await getItems(url, {
+          quantity: 10,
+          cursor: null,
+          direction: "forward",
+        })
+      );
     };
 
     fetchData().catch((error) => console.error(error));
@@ -56,23 +40,18 @@ const LocalizePage = () => {
 
   useMemo(() => {
     try {
-      const pagination = data[endpoint].pageInfo;
+      const pagination = data?.pageInfo;
+      const items = data?.edges.map(({ node }) => node);
 
+      setCurrentItem(items[0] || {});
       setPagination(pagination);
+      setItems(items);
     } catch (error) {
       return {};
     }
   }, [data]);
 
-  useMemo(() => {
-    try {
-      const items = data[endpoint].edges.map(({ node }) => node);
-
-      setItems(items);
-    } catch (error) {
-      return [];
-    }
-  }, [data]);
+  console.log(currentItem);
 
   return (
     <div style={{ height: "100%" }}>
@@ -94,50 +73,68 @@ const LocalizePage = () => {
           <ResourceList
             items={items}
             renderItem={(item) => {
-              const { id, title, featuredImage } = item;
+              const { resourceId: id, image = "" } = item;
+              const { value: title } = item?.translatableContent?.find(
+                (content) =>
+                  content?.key === "title" ||
+                  content?.key === "label" ||
+                  content?.key === "meta_title" ||
+                  content?.key === "name"
+              ) || { value: "" };
+              const active = currentItem?.resourceId === id;
 
               return (
-                <ResourceItem id={id}>
-                  <InlineStack wrap={false} gap="300" blockAlign="center">
-                    {featuredImage?.url ? (
-                      <Thumbnail
-                        size="extraSmall"
-                        source={featuredImage?.url}
-                        alt={featuredImage?.altText}
-                      />
-                    ) : (
-                      <Thumbnail
-                        size="extraSmall"
-                        source={ImageMajor}
-                        alt="Empty Image"
-                      />
-                    )}
-                    <Text as="p" fontWeight="bold">
-                      {title}
-                    </Text>
-                  </InlineStack>
+                <ResourceItem
+                  id={id}
+                  onClick={() => setCurrentItem(item)}
+                  style={{ position: "relative" }}
+                >
+                  {active && <ActiveLabel />}
+                  <ListItem
+                    title={
+                      endpoint === "store_metadata" ? "Meta content" : title
+                    }
+                    image={image}
+                    withImage={
+                      endpoint === "product" || endpoint === "collection"
+                    }
+                  />
                 </ResourceItem>
               );
             }}
           />
-          <Box padding="400">
-            <BlockStack inlineAlign="center">
-              <Pagination
-                hasNext={pagination.hasNextPage}
-                onNext={async () =>
-                  setData(await getItems(10, pagination.endCursor, "forward"))
-                }
-                hasPrevious={pagination.hasPreviousPage}
-                onPrevious={async () =>
-                  setData(
-                    await getItems(10, pagination.startCursor, "backward")
-                  )
-                }
-              />
-            </BlockStack>
-          </Box>
+          {(pagination?.hasNextPage || pagination?.hasPreviousPage) && (
+            <Box padding="400">
+              <BlockStack inlineAlign="center">
+                <Pagination
+                  hasNext={pagination.hasNextPage}
+                  onNext={async () =>
+                    setData(
+                      await getItems(url, {
+                        quantity: 10,
+                        cursor: pagination.endCursor,
+                        direction: "forward",
+                      })
+                    )
+                  }
+                  hasPrevious={pagination.hasPreviousPage}
+                  onPrevious={async () =>
+                    setData(
+                      await getItems(url, {
+                        quantity: 10,
+                        cursor: pagination.startCursor,
+                        direction: "backward",
+                      })
+                    )
+                  }
+                />
+              </BlockStack>
+            </Box>
+          )}
         </Box>
-        <Box>Main content</Box>
+        <Box>
+          <TranslatableResourceTable />
+        </Box>
       </Box>
     </div>
   );
