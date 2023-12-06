@@ -9,33 +9,51 @@ import {
   Text,
 } from '@shopify/polaris';
 import { useLocation } from 'react-router-dom';
+import {languages} from '../../constants/languages'
 
 const TranslatableResourceTable = ({ currentItem }) => {
-  const capitalizeFirstLetter = (str) =>
-    str.charAt(0).toUpperCase() + str.slice(1);
+
+
+    
+  const capitalizeFirstLetter = useCallback(
+    (str) => str.charAt(0).toUpperCase() + str.slice(1),
+    []
+  );
+
   const pageTitle = useLocation().pathname.split('/').pop();
 
-  const rows =useCallback( () => {
+  
+
+
+  const rows = useCallback(() => {
     if (currentItem.translatableContent) {
       return currentItem.translatableContent.map((item) => [
         capitalizeFirstLetter(item.key.trim()),
-        item.value,
+        <Box>
+          <Text alignment="start" tone="subdued">
+            {item.value}
+          </Text>
+        </Box>,
         '',
       ]);
     }
-  },[currentItem]);
+  }, [currentItem]);
 
   const columnContentTypes = ['text', 'text', 'text'];
 
   const headings = [
     '',
     <Box>
-      <Text>PrimaryLanguage</Text>
-      <Text>PrimaryLanguage</Text>
+      <Text alignment="center" tone="subdued">
+        Primary language
+      </Text>
+      <Text alignment="center" tone="subdued" variant='bodyLg'>
+      {languages[currentItem.translatableContent.at(0).locale]}
+      </Text>
     </Box>,
 
     <Box>
-      <Text>Translate Language</Text>
+      <Text alignment="center">Translate language</Text>
       <Button />
     </Box>,
   ];
@@ -47,6 +65,7 @@ const TranslatableResourceTable = ({ currentItem }) => {
           columnContentTypes={columnContentTypes}
           headings={headings}
           rows={rows()}
+          truncate={false}
         />
       ) : (
         <>
