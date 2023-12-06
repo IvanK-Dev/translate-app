@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   Box,
   Button,
@@ -15,7 +15,7 @@ const TranslatableResourceTable = ({ currentItem }) => {
     str.charAt(0).toUpperCase() + str.slice(1);
   const pageTitle = useLocation().pathname.split('/').pop();
 
-  const rows = () => {
+  const rows =useCallback( () => {
     if (currentItem.translatableContent) {
       return currentItem.translatableContent.map((item) => [
         capitalizeFirstLetter(item.key.trim()),
@@ -23,7 +23,7 @@ const TranslatableResourceTable = ({ currentItem }) => {
         '',
       ]);
     }
-  };
+  },[currentItem]);
 
   const columnContentTypes = ['text', 'text', 'text'];
 
