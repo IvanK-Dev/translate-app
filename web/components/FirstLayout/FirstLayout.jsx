@@ -15,11 +15,11 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import './FirstLayout.module.css';
 import { languages } from '../../constants';
 import { useAppBridge, useNavigate } from '@shopify/app-bridge-react';
-import LanguageSelector from './LanguageSelector/LanguageSelector';
 import { useDispatch } from 'react-redux';
 import { getLocalesThunk } from '../../redux/locales/localesThunk';
 import { selectLocalesArray } from '../../redux/locales/localesSelectors.js';
 import { useSelector } from 'react-redux';
+import LanguageSelector from '../LanguageSelector/LanguageSelector.jsx';
 
 function FirstLayout() {
   const dispatch = useDispatch();
