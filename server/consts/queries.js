@@ -61,7 +61,7 @@ export const QUERIES = {
   metaobject: createQuery("metaobject"),
   navigation: createQuery("online_store_menu"),
   page: createQuery("online_store_page"),
-  policie: createQuery("shop_policy"),
+  policy: createQuery("shop_policy"),
   store_metadata: createQuery("shop"),
   notification: createQuery("email_template"),
   shipping_and_delivery: createQuery("delivery_method_definition"),
