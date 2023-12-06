@@ -7,16 +7,10 @@ import {
   InlineStack,
   Icon,
   Divider,
-  Button,
   Badge,
 } from '@shopify/polaris';
 import { ChevronRightMinor } from '@shopify/polaris-icons';
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import './FirstLayout.module.css';
 import { languages } from '../../constants';
@@ -24,8 +18,8 @@ import { useAppBridge, useNavigate } from '@shopify/app-bridge-react';
 import LanguageSelector from './LanguageSelector/LanguageSelector';
 import { useDispatch } from 'react-redux';
 import { getLocalesThunk } from '../../redux/locales/localesThunk';
-import { setApptoState } from '../../redux/app/appSlice';
 import { selectLocalesArray } from '../../redux/locales/localesSelectors.js';
+import { useSelector } from 'react-redux';
 
 function FirstLayout() {
   const dispatch = useDispatch();
@@ -33,12 +27,16 @@ function FirstLayout() {
 
   const app = useAppBridge();
 
-  const [locales, setLocales] = useState([]);
-  const locales1 = useSele(selectLocalesArray);
+  useEffect(() => {
+    (() => {
+      dispatch(getLocalesThunk(app));
+    })();
+  }, [dispatch, app]);
+
+  const locales = useSelector(selectLocalesArray);
+
   //const query = useFetch();
 
-  dispatch(getLocalesThunk(app));
-  console.log('tmp', locales1);
   // const fetchLocales = async () => {
   //   try {
   //     const localesData = await query.get('/api/shop/locales');
@@ -51,11 +49,10 @@ function FirstLayout() {
 
   //   fetchLocales();
   // }, []);
-  const primaryLocale = useMemo(() => {
-    return locales.data?.find((item) => item.primary)?.locale;
-  }, [locales]);
 
-  console.log(locales);
+  const primaryLocale = useMemo(() => {
+    return locales.find((item) => item.primary)?.locale;
+  }, [locales]);
 
   const buttonData = {
     Products: ['Collections', 'Products'],
@@ -150,9 +147,7 @@ function FirstLayout() {
     <Box>
       <Box paddingBlockStart={'300'} paddingBlockEnd={'300'}>
         <BlockStack inlineAlign="center">
-          {locales.length > 0 && (
-            <LanguageSelector locales={locales} setLocales={setLocales} />
-          )}
+          {locales.length > 0 && <LanguageSelector />}
         </BlockStack>
       </Box>
       <Layout>

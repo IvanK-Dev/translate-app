@@ -14,7 +14,7 @@ export const localesSlice = createSlice({
       })
       .addCase(getLocalesThunk.fulfilled, (state,{payload}) => {
         state.status = STATUS.success;
-        state.locales=payload.data
+        state.locales=payload
       })
       .addCase(getLocalesThunk.rejected, (state) => {
         state.status = STATUS.error;

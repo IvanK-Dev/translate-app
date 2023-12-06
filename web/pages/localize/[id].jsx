@@ -7,29 +7,30 @@ import {
   ResourceList,
   Text,
   Thumbnail,
-} from "@shopify/polaris";
-import { ImageMajor } from "@shopify/polaris-icons";
-import { useLocation } from "react-router-dom";
-import { useAuthenticatedFetch } from "../../hooks/index.js";
-import { useCallback, useEffect, useMemo, useState } from "react";
+} from '@shopify/polaris';
+import { ImageMajor } from '@shopify/polaris-icons';
+import { useLocation } from 'react-router-dom';
+import { useAuthenticatedFetch } from '../../hooks/index.js';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import TranslatableResourceTable from '../../components/TranslatableResourceTable/TranslatableResourceTable.jsx';
 
 const LocalizePage = () => {
   const [data, setData] = useState({});
   const [items, setItems] = useState([]);
   const [pagination, setPagination] = useState({});
 
-  const location = useLocation().pathname.split("/").pop();
+  const location = useLocation().pathname.split('/').pop();
   const endpoint = `${location}s`;
   const appFetch = useAuthenticatedFetch();
 
   const getItems = useCallback(
-    async (quantity = 10, cursor = null, direction = "forward") => {
+    async (quantity = 10, cursor = null, direction = 'forward') => {
       try {
         const response = await appFetch(`/api/${endpoint}`, {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify({ direction, quantity, cursor }),
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         });
 
@@ -75,20 +76,20 @@ const LocalizePage = () => {
   }, [data]);
 
   return (
-    <div style={{ height: "100%" }}>
+    <div style={{ height: '100%' }}>
       <Box
         style={{
-          display: "grid",
-          gridTemplateColumns: "250px 4fr",
+          display: 'grid',
+          gridTemplateColumns: '250px 4fr',
           padding: 0,
-          height: "100%",
+          height: '100%',
         }}
       >
         <Box
           style={{
-            borderRight: "1px solid #ebebeb",
-            height: "100%",
-            background: "#fff",
+            borderRight: '1px solid #ebebeb',
+            height: '100%',
+            background: '#fff',
           }}
         >
           <ResourceList
@@ -125,19 +126,21 @@ const LocalizePage = () => {
               <Pagination
                 hasNext={pagination.hasNextPage}
                 onNext={async () =>
-                  setData(await getItems(10, pagination.endCursor, "forward"))
+                  setData(await getItems(10, pagination.endCursor, 'forward'))
                 }
                 hasPrevious={pagination.hasPreviousPage}
                 onPrevious={async () =>
                   setData(
-                    await getItems(10, pagination.startCursor, "backward")
+                    await getItems(10, pagination.startCursor, 'backward')
                   )
                 }
               />
             </BlockStack>
           </Box>
         </Box>
-        <Box>Main content</Box>
+        <Box>
+          <TranslatableResourceTable />
+        </Box>
       </Box>
     </div>
   );

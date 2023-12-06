@@ -1,10 +1,13 @@
 import { ActionList, Button, Popover } from '@shopify/polaris';
 import { useCallback, useMemo, useState } from 'react';
 import { languages } from '../../../constants';
+import { useSelector } from 'react-redux';
+import { selectLocalesArray } from '../../../redux/locales/localesSelectors';
 
-const LanguageSelector = ({ locales, setLocales }) => {
+const LanguageSelector = () => {
   const [active, setActive] = useState(false);
-  const [primaryLang, setPrimaryLang] = useState('');
+
+  const locales=useSelector(selectLocalesArray)
 
   const toggleActive = useCallback(() => setActive((active) => !active), []);
 
