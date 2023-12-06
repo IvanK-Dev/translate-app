@@ -133,7 +133,7 @@ const LocalizePage = () => {
           )}
         </Box>
         <Box>
-          <TranslatableResourceTable />
+          <TranslatableResourceTable currentItem={currentItem} />
         </Box>
       </Box>
     </div>

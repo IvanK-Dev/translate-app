@@ -1,29 +1,62 @@
 import React from 'react';
 import {
   Box,
+  Button,
   DataTable,
-  BlockStack,
   Page,
-  InlineStack,
+  SkeletonTabs,
+  Spinner,
+  Text,
 } from '@shopify/polaris';
+import { useLocation } from 'react-router-dom';
 
-const TranslatableResourceTable = () => {
-  const rows = [
-    ['FieldName', 'immutable text', 'mutable text component'],
-    ['FieldName', 'immutable text', 'mutable text component'],
-    ['FieldName', 'immutable text', <Box>mutable text component</Box>],
-  ];
+const TranslatableResourceTable = ({ currentItem }) => {
+  const capitalizeFirstLetter = (str) =>
+    str.charAt(0).toUpperCase() + str.slice(1);
+  const pageTitle = useLocation().pathname.split('/').pop();
+
+  const rows = () => {
+    if (currentItem.translatableContent) {
+      return currentItem.translatableContent.map((item) => [
+        capitalizeFirstLetter(item.key.trim()),
+        item.value,
+        '',
+      ]);
+    }
+  };
 
   const columnContentTypes = ['text', 'text', 'text'];
-  const headings = ['','PrimaryLanguage', 'Translate Language'];
+
+  const headings = [
+    '',
+    <Box>
+      <Text>PrimaryLanguage</Text>
+      <Text>PrimaryLanguage</Text>
+    </Box>,
+
+    <Box>
+      <Text>Translate Language</Text>
+      <Button />
+    </Box>,
+  ];
 
   return (
-    <Page title={'Page Tiitle'}>
+    <Page title={capitalizeFirstLetter(pageTitle)}>
+      {currentItem.translatableContent ? (
         <DataTable
           columnContentTypes={columnContentTypes}
           headings={headings}
-          rows={rows}
+          rows={rows()}
         />
+      ) : (
+        <>
+          <Spinner />
+          <SkeletonTabs count={2} />
+          <SkeletonTabs count={2} />
+          <SkeletonTabs count={2} />
+          <SkeletonTabs count={2} />
+        </>
+      )}
     </Page>
   );
 };

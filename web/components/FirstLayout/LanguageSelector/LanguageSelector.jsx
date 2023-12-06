@@ -12,33 +12,37 @@ const LanguageSelector = () => {
   const locales = useSelector(selectLocalesArray);
 
   const toggleActive = useCallback(() => setActive((active) => !active), []);
-  
+
   const primary = locales.find((item) => item.primary)?.locale;
 
   const secondaryLocales = useMemo(() =>
     locales.filter((item) => item.primary === false)
   );
-  const handleSelectAction = useCallback((index) => {
+  const handleSelectAction = useCallback(
+    (index) => {
+      const tmpLocales = [...locales];
+      const fromIndex = tmpLocales.findIndex(
+        (locale) => locale.locale === primary
+      );
+      const toIndex = tmpLocales.findIndex(
+        (locale) => locale.locale === secondaryLocales[index].locale
+      );
 
-    const tmpLocales=[...locales]
-    const fromIndex = tmpLocales.findIndex((locale) => locale.locale === primary);
-    const toIndex = tmpLocales.findIndex(
-      (locale) => locale.locale === secondaryLocales[index].locale
-    );
+      if (fromIndex !== -1 && toIndex !== -1) {
+        const temp = { ...tmpLocales[fromIndex] };
+        tmpLocales[fromIndex] = {
+          ...tmpLocales[toIndex],
+          primary: temp.primary,
+          published: temp.published,
+        };
+        tmpLocales[toIndex] = { ...temp, primary: false, published: false };
+        dispatch(changeLanguage(tmpLocales));
+      }
 
-    if (fromIndex !== -1 && toIndex !== -1) {
-      const temp = { ...tmpLocales[fromIndex] };
-      tmpLocales[fromIndex] = {
-        ...tmpLocales[toIndex],
-        primary: temp.primary,
-        published: temp.published,
-      };
-      tmpLocales[toIndex] = { ...temp, primary: false, published: false };
-      console.log(tmpLocales)
-      dispatch(changeLanguage(tmpLocales));
-    }
-  }, [locales]);
-
+      toggleActive();
+    },
+    [locales]
+  );
 
   const actionListItems = secondaryLocales.map((item, index) => ({
     content: languages[item.locale],
