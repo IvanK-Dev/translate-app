@@ -6,8 +6,7 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite",
-    "coverage": "vitest run --coverage",
-    "postinstall": "node ./postinstall.js"
+    "coverage": "vitest run --coverage"
   },
   "type": "module",
   "engines": {

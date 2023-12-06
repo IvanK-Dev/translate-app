@@ -4,17 +4,10 @@ import {
   Pagination,
   ResourceItem,
   ResourceList,
-  Text,
-  Thumbnail,
-} from '@shopify/polaris';
-import { ImageMajor } from '@shopify/polaris-icons';
-import { useLocation } from 'react-router-dom';
-import { useAuthenticatedFetch } from '../../hooks/index.js';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import TranslatableResourceTable from '../../components/TranslatableResourceTable/TranslatableResourceTable.jsx';
 } from "@shopify/polaris";
 import { useLocation } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
+import TranslatableResourceTable from "../../components/TranslatableResourceTable/TranslatableResourceTable.jsx";
 import { ListItem } from "../../components/ListItem/ListItem.jsx";
 import { useFetch } from "../../hooks/useFetch.js";
 import { ActiveLabel } from "../../components/ActiveLabel/ActiveLabel.jsx";
@@ -57,6 +50,8 @@ const LocalizePage = () => {
       return {};
     }
   }, [data]);
+
+  console.log(currentItem);
 
   return (
     <div style={{ height: "100%" }}>
