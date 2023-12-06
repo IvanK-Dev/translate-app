@@ -4,6 +4,14 @@ import {
   Pagination,
   ResourceItem,
   ResourceList,
+  Text,
+  Thumbnail,
+} from '@shopify/polaris';
+import { ImageMajor } from '@shopify/polaris-icons';
+import { useLocation } from 'react-router-dom';
+import { useAuthenticatedFetch } from '../../hooks/index.js';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import TranslatableResourceTable from '../../components/TranslatableResourceTable/TranslatableResourceTable.jsx';
 } from "@shopify/polaris";
 import { useLocation } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
@@ -126,7 +134,9 @@ const LocalizePage = () => {
             </Box>
           )}
         </Box>
-        <Box>Main content</Box>
+        <Box>
+          <TranslatableResourceTable />
+        </Box>
       </Box>
     </div>
   );

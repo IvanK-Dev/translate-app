@@ -7,46 +7,52 @@ import {
   InlineStack,
   Icon,
   Divider,
-  Button,
   Badge,
 } from '@shopify/polaris';
 import { ChevronRightMinor } from '@shopify/polaris-icons';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import './FirstLayout.module.css';
-import { useAppQuery } from '../../hooks';
 import { languages } from '../../constants';
-import { useNavigate } from '@shopify/app-bridge-react';
+import { useAppBridge, useNavigate } from '@shopify/app-bridge-react';
 import LanguageSelector from './LanguageSelector/LanguageSelector';
-import { useFetch } from '../../hooks/useFetch';
+import { useDispatch } from 'react-redux';
+import { getLocalesThunk } from '../../redux/locales/localesThunk';
+import { selectLocalesArray } from '../../redux/locales/localesSelectors.js';
+import { useSelector } from 'react-redux';
 
 function FirstLayout() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const query = useFetch();
-  const [locales, setLocales] = useState([]);
 
-  // const locales = useAppQuery({
-  //   url: "/api/shop/locales",
-  // });
+  const app = useAppBridge();
 
   useEffect(() => {
-    const fetchLocales = async () => {
-      try {
-        const localesData = await query.get('/api/shop/locales');
-        setLocales(localesData);
-      } catch (error) {
-        console.error('Error fetching locales:', error);
-      }
-    };
+    (() => {
+      dispatch(getLocalesThunk(app));
+    })();
+  }, [dispatch, app]);
 
-    fetchLocales();
-  }, []);
+  const locales = useSelector(selectLocalesArray);
+
+  //const query = useFetch();
+
+  // const fetchLocales = async () => {
+  //   try {
+  //     const localesData = await query.get('/api/shop/locales');
+  //     setLocales(localesData);
+  //   } catch (error) {
+  //     console.error('Error fetching locales:', error);
+  //   }
+  // };
+  // useEffect(() => {
+
+  //   fetchLocales();
+  // }, []);
 
   const primaryLocale = useMemo(() => {
-    return locales.data?.find((item) => item.primary)?.locale;
+    return locales.find((item) => item.primary)?.locale;
   }, [locales]);
-
-  console.log(locales);
 
   const buttonData = {
     Products: ['Collections', 'Products'],
@@ -141,9 +147,7 @@ function FirstLayout() {
     <Box>
       <Box paddingBlockStart={'300'} paddingBlockEnd={'300'}>
         <BlockStack inlineAlign="center">
-          {locales.length > 0 && (
-            <LanguageSelector locales={locales} setLocales={setLocales} />
-          )}
+          {locales.length > 0 && <LanguageSelector />}
         </BlockStack>
       </Box>
       <Layout>
