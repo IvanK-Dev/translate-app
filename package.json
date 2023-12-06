@@ -10,7 +10,8 @@
     "info": "shopify app info",
     "generate": "shopify app generate",
     "deploy": "shopify app deploy",
-    "config-push": "npm run shopify app config push"
+    "config-push": "npm run shopify app config push",
+    "postinstall": "node ./postinstall.js"
   },
   "dependencies": {
     "@shopify/app": "3.51.2",
