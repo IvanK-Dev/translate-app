@@ -8,18 +8,18 @@ import {
   Icon,
   Divider,
   Badge,
-} from "@shopify/polaris";
-import { ChevronRightMinor } from "@shopify/polaris-icons";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+} from '@shopify/polaris';
+import { ChevronRightMinor } from '@shopify/polaris-icons';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import "./FirstLayout.module.css";
-import { languages } from "../../constants";
-import { useAppBridge, useNavigate } from "@shopify/app-bridge-react";
-import LanguageSelector from "./LanguageSelector/LanguageSelector";
-import { useDispatch } from "react-redux";
-import { getLocalesThunk } from "../../redux/locales/localesThunk";
-import { selectLocalesArray } from "../../redux/locales/localesSelectors.js";
-import { useSelector } from "react-redux";
+import './FirstLayout.module.css';
+import { languages } from '../../constants';
+import { useAppBridge, useNavigate } from '@shopify/app-bridge-react';
+import LanguageSelector from './LanguageSelector/LanguageSelector';
+import { useDispatch } from 'react-redux';
+import { getLocalesThunk } from '../../redux/locales/localesThunk';
+import { selectLocalesArray } from '../../redux/locales/localesSelectors.js';
+import { useSelector } from 'react-redux';
 
 function FirstLayout() {
   const dispatch = useDispatch();
@@ -35,38 +35,23 @@ function FirstLayout() {
 
   const locales = useSelector(selectLocalesArray);
 
-  //const query = useFetch();
-
-  // const fetchLocales = async () => {
-  //   try {
-  //     const localesData = await query.get('/api/shop/locales');
-  //     setLocales(localesData);
-  //   } catch (error) {
-  //     console.error('Error fetching locales:', error);
-  //   }
-  // };
-  // useEffect(() => {
-
-  //   fetchLocales();
-  // }, []);
-
   const primaryLocale = useMemo(() => {
     return locales.find((item) => item.primary)?.locale;
   }, [locales]);
 
   const buttonData = {
-    Products: ["Collections", "Products"],
-    "Online Store": [
-      "Blog posts",
-      "Blog titles",
-      "Filters",
-      "Metaobjects",
-      "Navigation",
-      "Pages",
-      "Policies",
-      "Store metadata",
+    Products: ['Collections', 'Products'],
+    'Online Store': [
+      'Blog posts',
+      'Blog titles',
+      'Filters',
+      'Metaobjects',
+      'Navigation',
+      'Pages',
+      'Policies',
+      'Store metadata',
     ],
-    Settings: ["Notifications", "Shipping and delivery"],
+    Settings: ['Notifications', 'Shipping and delivery'],
   };
 
   const generateItems = useCallback(
@@ -77,9 +62,9 @@ function FirstLayout() {
         str = str
           .trim()
           .toLowerCase()
-          .replace(/\s+/g, "_")
-          .replace(/s$/, "")
-          .replace(/ie$/, "y");
+          .replace(/\s+/g, '_')
+          .replace(/s$/, '')
+          .replace(/ie$/, 'y');
         navigate(`/localize/${str}`);
       };
 
@@ -94,10 +79,10 @@ function FirstLayout() {
                 borderColor="border-secondary"
                 borderStyle="solid"
                 borderBlockEndWidth="025"
-                paddingBlockStart={"300"}
-                paddingBlockEnd={"300"}
-                paddingInlineStart={"400"}
-                paddingInlineEnd={"400"}
+                paddingBlockStart={'300'}
+                paddingBlockEnd={'300'}
+                paddingInlineStart={'400'}
+                paddingInlineEnd={'400'}
               >
                 <Text variant="headingSm">{key}</Text>
               </Box>
@@ -108,7 +93,7 @@ function FirstLayout() {
                       key={`${index} ${subKey}`}
                       onClick={() => handleOnClick(subKey)}
                     >
-                      <Box padding={{ xs: "400" }}>
+                      <Box padding={{ xs: '400' }}>
                         <InlineStack
                           align="space-between"
                           blockAlign="center"
@@ -142,7 +127,7 @@ function FirstLayout() {
 
   return (
     <Box>
-      <Box paddingBlockStart={"300"} paddingBlockEnd={"300"}>
+      <Box paddingBlockStart={'300'} paddingBlockEnd={'300'}>
         <BlockStack inlineAlign="center">
           {locales.length > 0 && <LanguageSelector />}
         </BlockStack>
@@ -154,7 +139,7 @@ function FirstLayout() {
         <Layout.Section variant="oneThird">
           <Card sectioned>
             <h2>
-              {languages[primaryLocale]} <Badge>Default</Badge>{" "}
+              {languages[primaryLocale]} <Badge>Default</Badge>{' '}
             </h2>
             <p>
               Your default language is visible to all customers. Versions
