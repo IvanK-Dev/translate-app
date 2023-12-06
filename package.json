@@ -10,8 +10,7 @@
     "info": "shopify app info",
     "generate": "shopify app generate",
     "deploy": "shopify app deploy",
-    "config-push": "npm run shopify app config push",
-    "postinstall": "node ./postinstall.js"
+    "config-push": "npm run shopify app config push"
   },
   "dependencies": {
     "@shopify/app": "3.51.2",
@@ -21,7 +20,7 @@
   "private": true,
   "workspaces": [
     "extensions/*",
-    "web",
-    "web/frontend"
+    "server",
+    "web"
   ]
 }
