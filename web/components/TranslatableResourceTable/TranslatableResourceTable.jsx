@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import {
-    BlockStack,
+  BlockStack,
   Box,
   Button,
   DataTable,

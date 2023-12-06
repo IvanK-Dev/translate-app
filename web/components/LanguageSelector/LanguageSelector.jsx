@@ -11,7 +11,6 @@ const LanguageSelector = () => {
 
   const locales = useSelector(selectLocalesArray);
 
-  
   const toggleActive = useCallback(() => setActive((active) => !active), []);
 
   const primary = locales.find((item) => item.primary)?.locale;
