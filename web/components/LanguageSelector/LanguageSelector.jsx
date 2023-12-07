@@ -1,15 +1,32 @@
 import { ActionList, Button, Popover } from '@shopify/polaris';
-import { useCallback, useMemo, useState } from 'react';
-import { languages } from '../../constants';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { STATUS, languages } from '../../constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectLocalesArray } from '../../redux/locales/localesSelectors';
+import {
+  selectLocalesArray,
+  selectLocalesStatus,
+} from '../../redux/locales/localesSelectors';
 import { changeLanguage } from '../../redux/locales/localesSlice';
+import { useAppBridge } from '@shopify/app-bridge-react';
+import { getLocalesThunk } from '../../redux/locales/localesThunk';
 
 const LanguageSelector = () => {
   const [active, setActive] = useState(false);
   const dispatch = useDispatch();
 
   const locales = useSelector(selectLocalesArray);
+  const status = useSelector(selectLocalesStatus);
+
+  const app = useAppBridge();
+
+  useEffect(() => {
+    if (locales.length === 0) {
+      (() => {
+        dispatch(getLocalesThunk(app));
+      })();
+    }
+  }, [dispatch, app]);
+  console.log('locales', locales);
 
   const toggleActive = useCallback(() => setActive((active) => !active), []);
 
@@ -50,7 +67,11 @@ const LanguageSelector = () => {
   }));
 
   const activator = (
-    <Button onClick={toggleActive} disclosure>
+    <Button
+      loading={status === STATUS.loading}
+      onClick={toggleActive}
+      disclosure
+    >
       {languages[primary]}
     </Button>
   );

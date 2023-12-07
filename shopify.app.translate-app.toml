@@ -2,7 +2,7 @@
 
 name = "translate-app"
 client_id = "1aa7fa129671833ee6d1c04b4afb3200"
-application_url = "https://determined-palm-epson-fallen.trycloudflare.com"
+application_url = "https://ml-recorder-sas-defeat.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,10 +11,10 @@ scopes = "write_products,read_products,read_locales,read_translations,write_tran
 
 [auth]
 redirect_urls = [
-  "https://determined-palm-epson-fallen.trycloudflare.com/auth/callback",
-  "https://determined-palm-epson-fallen.trycloudflare.com/auth/shopify/callback",
-  "https://determined-palm-epson-fallen.trycloudflare.com/api/auth/callback",
-  "https://determined-palm-epson-fallen.trycloudflare.com/.shopify/graphiql/auth/callback"
+  "https://ml-recorder-sas-defeat.trycloudflare.com/auth/callback",
+  "https://ml-recorder-sas-defeat.trycloudflare.com/auth/shopify/callback",
+  "https://ml-recorder-sas-defeat.trycloudflare.com/api/auth/callback",
+  "https://ml-recorder-sas-defeat.trycloudflare.com/.shopify/graphiql/auth/callback"
 ]
 
 [webhooks]
