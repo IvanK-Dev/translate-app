@@ -2,7 +2,9 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   BlockStack,
   Box,
+  Button,
   DataTable,
+  InlineStack,
   Page,
   SkeletonTabs,
   Spinner,
@@ -33,9 +35,8 @@ const TranslatableResourceTable = ({ currentItem }) => {
   }, [language]);
 
   useEffect(() => {
-    setValueObj({})
-  }, [currentItem])
-  
+    setValueObj({});
+  }, [currentItem]);
 
   const capitalizeFirstLetter = useCallback(
     (str) => str.charAt(0).toUpperCase() + str.slice(1),
@@ -49,6 +50,10 @@ const TranslatableResourceTable = ({ currentItem }) => {
   console.log('valueObj', valueObj);
 
   const pageTitle = useLocation().pathname.split('/').pop();
+
+  const translateButton=()=>{
+    
+  }
 
   const rows = useCallback(() => {
     if (currentItem.translatableContent) {
@@ -66,13 +71,15 @@ const TranslatableResourceTable = ({ currentItem }) => {
             value={valueObj[item.key]}
             onChange={(value) => handleChange(item.key, value)}
             autoComplete="off"
-          />
+            placeholder=" Input here"
+            connectedRight={<Button>Translate</Button>}
+          >
+
+          </TextField>
         ),
       ]);
     }
   }, [currentItem, valueObj]);
-
-
 
   const columnContentTypes = ['text', 'text', 'text'];
 
@@ -98,9 +105,10 @@ const TranslatableResourceTable = ({ currentItem }) => {
   ];
 
   return (
-    <Page 
-    backAction={{url:'/pagename'}}
-    title={capitalizeFirstLetter(pageTitle)}>
+    <Page
+      backAction={{ url: '/pagename' }}
+      title={capitalizeFirstLetter(pageTitle)}
+    >
       {currentItem.translatableContent ? (
         <Box maxWidth="100%">
           <DataTable
@@ -119,6 +127,7 @@ const TranslatableResourceTable = ({ currentItem }) => {
           <SkeletonTabs count={2} />
         </>
       )}
+     
     </Page>
   );
 };
