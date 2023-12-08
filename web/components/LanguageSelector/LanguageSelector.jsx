@@ -1,17 +1,17 @@
-import { ActionList, Button, Popover } from '@shopify/polaris';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { STATUS, languages } from '../../constants';
-import { useDispatch, useSelector } from 'react-redux';
+import { ActionList, Button, Popover } from "@shopify/polaris";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { STATUS, languages } from "../../constants";
+import { useDispatch, useSelector } from "react-redux";
 import {
   selectLocalesArray,
   selectLocalesStatus,
-} from '../../redux/locales/localesSelectors';
-import { changeLanguage } from '../../redux/locales/localesSlice';
-import { useAppBridge } from '@shopify/app-bridge-react';
-import { getLocalesThunk } from '../../redux/locales/localesThunk';
+} from "../../redux/locales/localesSelectors";
+import { changeLanguage } from "../../redux/locales/localesSlice";
+import { useAppBridge } from "@shopify/app-bridge-react";
+import { getLocalesThunk } from "../../redux/locales/localesThunk";
 
 const LanguageSelector = () => {
-  const [active, setActive] = useState(false);
+  const [opened, setOpened] = useState(false);
   const dispatch = useDispatch();
 
   const locales = useSelector(selectLocalesArray);
@@ -27,12 +27,12 @@ const LanguageSelector = () => {
     }
   }, [dispatch, app]);
 
-  const toggleActive = useCallback(() => setActive((active) => !active), []);
+  const toggleOpened = useCallback(() => setOpened((open) => !open), []);
 
-  const primary = locales.find((item) => item.primary)?.locale;
+  const primary = locales.find((item) => item.active)?.locale;
 
   const secondaryLocales = useMemo(() =>
-    locales.filter((item) => item.primary === false)
+    locales.filter((item) => item.active === false)
   );
   const handleSelectAction = useCallback(
     (index) => {
@@ -48,14 +48,14 @@ const LanguageSelector = () => {
         const temp = { ...tmpLocales[fromIndex] };
         tmpLocales[fromIndex] = {
           ...tmpLocales[toIndex],
-          primary: temp.primary,
+          active: temp.active,
           published: temp.published,
         };
-        tmpLocales[toIndex] = { ...temp, primary: false, published: false };
+        tmpLocales[toIndex] = { ...temp, active: false, published: false };
         dispatch(changeLanguage(tmpLocales));
       }
 
-      toggleActive();
+      toggleOpened();
     },
     [locales]
   );
@@ -68,7 +68,7 @@ const LanguageSelector = () => {
   const activator = (
     <Button
       loading={status === STATUS.loading}
-      onClick={toggleActive}
+      onClick={toggleOpened}
       disclosure
     >
       {languages[primary]}
@@ -78,10 +78,10 @@ const LanguageSelector = () => {
   return (
     <div className="container">
       <Popover
-        active={active}
+        active={opened}
         activator={activator}
         preferredAlignment="center"
-        onClose={toggleActive}
+        onClose={toggleOpened}
       >
         <ActionList actionRole="menuitem" items={actionListItems} />
       </Popover>

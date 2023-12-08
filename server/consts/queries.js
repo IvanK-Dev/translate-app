@@ -27,7 +27,7 @@ const createQuery = (entity) => (direction) => {
   `;
 
   return `
-  query CombinedQuery($numEntities: Int!, $cursor: String) {
+  query CombinedQuery($numEntities: Int!, $cursor: String, $locale: String!) {
     resources: translatableResources${queryDirection} {
       edges {
         node {
@@ -37,6 +37,11 @@ const createQuery = (entity) => (direction) => {
             value 
             digest 
             locale 
+          }
+          translations(locale: $locale) {
+            key
+            value
+            locale
           }
         }
       }
