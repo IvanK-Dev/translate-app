@@ -32,18 +32,16 @@ const TranslatableResourceTable = ({ currentItem }) => {
     }
   }, [language]);
 
-
-
   const capitalizeFirstLetter = useCallback(
     (str) => str.charAt(0).toUpperCase() + str.slice(1),
     []
   );
 
   const handleChange = useCallback((key, newValue) => {
-    const obj = JSON.parse(JSON.stringify(valueObj));
-    obj[key] = newValue;
-    setValueObj(obj);
+    setValueObj((prev) => ({ ...prev, [key]: newValue }));
   }, []);
+
+  console.log('valueObj', valueObj);
 
   const pageTitle = useLocation().pathname.split('/').pop();
 
@@ -60,14 +58,14 @@ const TranslatableResourceTable = ({ currentItem }) => {
           <TextEditor />
         ) : (
           <TextField
-            value={valueObj[item.key] && ''}
+            value={valueObj[item.key]}
             onChange={(value) => handleChange(item.key, value)}
             autoComplete="off"
           />
         ),
       ]);
     }
-  }, [currentItem]);
+  }, [currentItem, valueObj]);
 
   const columnContentTypes = ['text', 'text', 'text'];
 
