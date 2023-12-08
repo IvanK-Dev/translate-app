@@ -16,10 +16,7 @@ import { languages } from '../../constants/languages';
 import LanguageSelector from '../LanguageSelector/LanguageSelector';
 import TextEditor from '../TinyMceElement/TextEditor';
 import { useSelector } from 'react-redux';
-import {
-  selectLocalesArray,
-  selectLocalesStatus,
-} from '../../redux/locales/localesSelectors';
+import { selectLocalesArray } from '../../redux/locales/localesSelectors';
 
 const TranslatableResourceTable = ({ currentItem }) => {
   const [valueObj, setValueObj] = useState({});
@@ -51,9 +48,18 @@ const TranslatableResourceTable = ({ currentItem }) => {
 
   const pageTitle = useLocation().pathname.split('/').pop();
 
-  const translateButton=()=>{
-    
-  }
+  const handleTranclateButton = (key, value) => {
+    if (value) {
+      console.log('handleTranclateButton', key, value);
+      setValueObj((prev) => ({ ...prev, [key]: value.concat(' ','[Translated]') }));
+    }
+  };
+
+  const TranslateButton = ({ itemKey, value }) => (
+    <Button onClick={() => handleTranclateButton(itemKey, value)}>
+      Translate
+    </Button>
+  );
 
   const rows = useCallback(() => {
     if (currentItem.translatableContent) {
@@ -72,10 +78,10 @@ const TranslatableResourceTable = ({ currentItem }) => {
             onChange={(value) => handleChange(item.key, value)}
             autoComplete="off"
             placeholder=" Input here"
-            connectedRight={<Button>Translate</Button>}
-          >
-
-          </TextField>
+            connectedRight={
+              <TranslateButton value={valueObj[item.key]} itemKey={item.key} />
+            }
+          ></TextField>
         ),
       ]);
     }
@@ -127,7 +133,6 @@ const TranslatableResourceTable = ({ currentItem }) => {
           <SkeletonTabs count={2} />
         </>
       )}
-     
     </Page>
   );
 };
