@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   BlockStack,
   Box,
@@ -13,20 +13,35 @@ import { useLocation } from 'react-router-dom';
 import { languages } from '../../constants/languages';
 import LanguageSelector from '../LanguageSelector/LanguageSelector';
 import TextEditor from '../TinyMceElement/TextEditor';
+import { useSelector } from 'react-redux';
+import {
+  selectLocalesArray,
+  selectLocalesStatus,
+} from '../../redux/locales/localesSelectors';
 
 const TranslatableResourceTable = ({ currentItem }) => {
   const [valueObj, setValueObj] = useState({});
+
+  const language = useSelector(selectLocalesArray).find(
+    ({ primary }) => primary
+  );
+
+  useEffect(() => {
+    if (language) {
+      setValueObj((prevObj) => ({ ...prevObj, locale: language.locale }));
+    }
+  }, [language]);
+
   const capitalizeFirstLetter = useCallback(
     (str) => str.charAt(0).toUpperCase() + str.slice(1),
     []
   );
 
   const handleChange = useCallback((key, newValue) => {
-    const obj = JSON.parse(JSON.stringify(valueObj));
-    obj[key] = newValue;
-    setValueObj(obj);
+    setValueObj((prev) => ({ ...prev, [key]: newValue }));
   }, []);
 
+  console.log('valueObj', valueObj);
 
   const pageTitle = useLocation().pathname.split('/').pop();
 
@@ -43,14 +58,14 @@ const TranslatableResourceTable = ({ currentItem }) => {
           <TextEditor />
         ) : (
           <TextField
-            value={valueObj[item.key]&&''}
+            value={valueObj[item.key]}
             onChange={(value) => handleChange(item.key, value)}
             autoComplete="off"
           />
         ),
       ]);
     }
-  }, [currentItem]);
+  }, [currentItem, valueObj]);
 
   const columnContentTypes = ['text', 'text', 'text'];
 
