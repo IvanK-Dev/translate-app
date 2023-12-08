@@ -26,7 +26,6 @@ const LanguageSelector = () => {
       })();
     }
   }, [dispatch, app]);
-  console.log('locales', locales);
 
   const toggleActive = useCallback(() => setActive((active) => !active), []);
 
