@@ -32,6 +32,11 @@ const TranslatableResourceTable = ({ currentItem }) => {
     }
   }, [language]);
 
+  useEffect(() => {
+    setValueObj({})
+  }, [currentItem])
+  
+
   const capitalizeFirstLetter = useCallback(
     (str) => str.charAt(0).toUpperCase() + str.slice(1),
     []
@@ -67,6 +72,8 @@ const TranslatableResourceTable = ({ currentItem }) => {
     }
   }, [currentItem, valueObj]);
 
+
+
   const columnContentTypes = ['text', 'text', 'text'];
 
   const headings = [
@@ -91,7 +98,9 @@ const TranslatableResourceTable = ({ currentItem }) => {
   ];
 
   return (
-    <Page title={capitalizeFirstLetter(pageTitle)}>
+    <Page 
+    backAction={{url:'/pagename'}}
+    title={capitalizeFirstLetter(pageTitle)}>
       {currentItem.translatableContent ? (
         <Box maxWidth="100%">
           <DataTable
