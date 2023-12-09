@@ -1,9 +1,11 @@
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   BlockStack,
   Box,
   Button,
   DataTable,
+  InlineStack,
   Page,
   SkeletonTabs,
   Spinner,
@@ -59,6 +61,22 @@ const TranslatableResourceTable = ({ currentItem }) => {
 
   const pageTitle = useLocation().pathname.split("/").pop();
 
+  const handleTranslateButton = (key, value) => {
+    if (value) {
+      console.log("handleTranslateButton", key, value);
+      setValueObj((prev) => ({
+        ...prev,
+        [key]: value.concat(" ", "[Translated]"),
+      }));
+    }
+  };
+
+  const TranslateButton = ({ itemKey, value }) => (
+    <Button onClick={() => handleTranslateButton(itemKey, value)}>
+      Translate
+    </Button>
+  );
+
   const rows = useCallback(() => {
     if (currentItem.translatableContent) {
       return currentItem.translatableContent.map((item) => [
@@ -73,7 +91,7 @@ const TranslatableResourceTable = ({ currentItem }) => {
             {item.value}
           </Text>
         </Box>,
-        item.key.trim().includes("html") ? (
+        item.key.trim().includes('html') ? (
           <TextEditor />
         ) : (
           <TextField
@@ -81,6 +99,10 @@ const TranslatableResourceTable = ({ currentItem }) => {
             onChange={(value) => handleChange(item.key, value)}
             autoComplete="off"
             label={""}
+            placeholder=" Input here"
+            connectedRight={
+              <TranslateButton value={valueObj[item.key]} itemKey={item.key} />
+            }
           />
         ),
       ]);
@@ -155,6 +177,7 @@ const TranslatableResourceTable = ({ currentItem }) => {
 
   return (
     <Page
+      backAction={{ url: "/pagename" }}
       title={capitalizeFirstLetter(pageTitle)}
       primaryAction={
         <Button
