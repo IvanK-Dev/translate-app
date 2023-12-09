@@ -1,14 +1,9 @@
 import shopify from "../../shopify.js";
 import { QUERIES } from "../../consts/queries.js";
 
-const getEntity = async (req, res) => {
+const getEntities = async (req, res) => {
   const { entity } = req.params;
-  const {
-    quantity = 10,
-    cursor = null,
-    direction = "forward",
-    locale = "en",
-  } = req.body;
+  const { quantity = 10, cursor = null, direction = "forward" } = req.body;
 
   if (direction !== "forward" && direction !== "backward")
     return res.status(400).json({
@@ -27,7 +22,6 @@ const getEntity = async (req, res) => {
       variables: {
         numEntities: quantity,
         cursor,
-        locale,
       },
     },
   });
@@ -43,7 +37,6 @@ const getEntity = async (req, res) => {
         node: {
           resourceId: resourceId,
           translatableContent: resource.node.translatableContent,
-          translations: resource.node.translations,
           image: image || null,
         },
       };
@@ -54,4 +47,4 @@ const getEntity = async (req, res) => {
   return res.status(200).json(combinedData);
 };
 
-export default getEntity;
+export default getEntities;

@@ -4,6 +4,8 @@ const router = express.Router();
 
 router.post("/translate", contrs.regTranslation);
 
-router.post("/:entity", contrs.getEntity);
+router.post("/entity/", contrs.getEntityById);
+
+router.post("/entities/:entity", contrs.getEntities);
 
 export default router;

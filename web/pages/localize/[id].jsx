@@ -11,20 +11,16 @@ import TranslatableResourceTable from "../../components/TranslatableResourceTabl
 import { ListItem } from "../../components/ListItem/ListItem.jsx";
 import { useFetch } from "../../hooks/useFetch.js";
 import { ActiveLabel } from "../../components/ActiveLabel/ActiveLabel.jsx";
-import { useSelector } from "react-redux";
-import { selectActiveLocale } from "../../redux/locales/localesSelectors.js";
 
 const LocalizePage = () => {
   const [data, setData] = useState({});
   const [items, setItems] = useState([]);
   const [pagination, setPagination] = useState({});
-  const [currentItem, setCurrentItem] = useState({});
-
-  const activeLocale = useSelector(selectActiveLocale);
+  const [currentId, setCurrentId] = useState("");
 
   const location = useLocation().pathname.split("/").pop();
   const endpoint = `${location}`;
-  const url = `/api/${endpoint}`;
+  const url = `/api/entities/${endpoint}`;
 
   const getItems = useFetch().post;
 
@@ -35,20 +31,19 @@ const LocalizePage = () => {
           quantity: 10,
           cursor: null,
           direction: "forward",
-          locale: activeLocale?.locale,
         })
       );
     };
 
     fetchData().catch((error) => console.error(error));
-  }, [activeLocale]);
+  }, []);
 
   useMemo(() => {
     try {
       const pagination = data?.pageInfo;
       const items = data?.edges.map(({ node }) => node);
 
-      setCurrentItem(items[0] || {});
+      setCurrentId(items[0]?.resourceId || "");
       setPagination(pagination);
       setItems(items);
     } catch (error) {
@@ -84,12 +79,12 @@ const LocalizePage = () => {
                   content?.key === "meta_title" ||
                   content?.key === "name"
               ) || { value: "" };
-              const active = currentItem?.resourceId === id;
+              const active = currentId === id;
 
               return (
                 <ResourceItem
                   id={id}
-                  onClick={() => setCurrentItem(item)}
+                  onClick={() => setCurrentId(item?.resourceId)}
                   style={{ position: "relative" }}
                 >
                   {active && <ActiveLabel />}
@@ -117,7 +112,6 @@ const LocalizePage = () => {
                         quantity: 10,
                         cursor: pagination.endCursor,
                         direction: "forward",
-                        locale: activeLocale?.locale,
                       })
                     )
                   }
@@ -128,7 +122,6 @@ const LocalizePage = () => {
                         quantity: 10,
                         cursor: pagination.startCursor,
                         direction: "backward",
-                        locale: activeLocale?.locale,
                       })
                     )
                   }
@@ -138,7 +131,7 @@ const LocalizePage = () => {
           )}
         </Box>
         <Box>
-          <TranslatableResourceTable currentItem={currentItem} />
+          <TranslatableResourceTable currentId={currentId} />
         </Box>
       </Box>
     </div>

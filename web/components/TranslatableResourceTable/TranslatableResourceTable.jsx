@@ -15,14 +15,32 @@ import { languages } from "../../constants/index.js";
 import LanguageSelector from "../LanguageSelector/LanguageSelector";
 import TextEditor from "../TinyMceElement/TextEditor";
 import { useSelector } from "react-redux";
-import { selectLocalesArray } from "../../redux/locales/localesSelectors";
+import {
+  selectActiveLocale,
+  selectLocalesArray,
+} from "../../redux/locales/localesSelectors";
 import { useFetch } from "../../hooks/useFetch.js";
 
-const TranslatableResourceTable = ({ currentItem }) => {
+const TranslatableResourceTable = ({ currentId }) => {
   const [valueObj, setValueObj] = useState({});
+  const [currentItem, setCurrentItem] = useState({});
   const appFetch = useFetch();
 
+  const activeLocale = useSelector(selectActiveLocale);
   const language = useSelector(selectLocalesArray).find(({ active }) => active);
+
+  useEffect(() => {
+    if (!currentId) return;
+    const getEntity = async () => {
+      const response = await appFetch.post(`/api/entity/`, {
+        resourceId: currentId,
+        locale: activeLocale?.locale,
+      });
+      setCurrentItem(response);
+    };
+
+    getEntity().catch((error) => console.error(error));
+  }, [currentId, activeLocale]);
 
   useEffect(() => {
     if (language) {
@@ -31,7 +49,7 @@ const TranslatableResourceTable = ({ currentItem }) => {
   }, [language]);
 
   useEffect(() => {
-    if (!currentItem.translatableContent) return;
+    if (!currentItem?.translatableContent) return;
     currentItem.translatableContent.forEach((item) => {
       setValueObj((prevObj) => ({
         ...prevObj,
@@ -117,8 +135,8 @@ const TranslatableResourceTable = ({ currentItem }) => {
       </Text>
       <Text as={"span"} alignment="center" tone="subdued" variant="bodyLg">
         {"Language" &&
-          currentItem.translatableContent &&
-          languages[currentItem.translatableContent.at(0).locale]}
+          currentItem?.translatableContent &&
+          languages[currentItem?.translatableContent?.at(0).locale]}
       </Text>
     </Box>,
 
@@ -155,9 +173,26 @@ const TranslatableResourceTable = ({ currentItem }) => {
 
     if (payload.translations.length === 0) return;
 
-    appFetch.post("/api/translate", payload).catch((error) => {
-      console.log(error);
-    });
+    appFetch
+      .post("/api/translate", payload)
+      .then((response) => {
+        const newTranslations = response?.translationsRegister?.translations;
+
+        const updatedTranslations = currentItem?.translations?.map((item) => {
+          const newTranslation = newTranslations?.find(
+            (translation) => translation.key === item.key
+          );
+          return newTranslation || item;
+        });
+
+        setCurrentItem((prev) => ({
+          ...prev,
+          translations: updatedTranslations,
+        }));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [valueObj, appFetch]);
 
   const disabled = useMemo(() => {
@@ -187,7 +222,7 @@ const TranslatableResourceTable = ({ currentItem }) => {
         </Button>
       }
     >
-      {currentItem.translatableContent ? (
+      {currentItem?.translatableContent ? (
         <Box maxWidth="100%">
           <DataTable
             columnContentTypes={columnContentTypes}
