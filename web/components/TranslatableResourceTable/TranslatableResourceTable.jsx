@@ -30,6 +30,24 @@ const TranslatableResourceTable = ({ currentItem }) => {
     }
   }, [language]);
 
+  useEffect(() => {
+    if (!currentItem.translatableContent) return;
+    currentItem.translatableContent.forEach((item) => {
+      setValueObj((prevObj) => ({
+        ...prevObj,
+        [item.key]: "",
+      }));
+    });
+
+    if (!currentItem.translations) return;
+    currentItem.translations.forEach((item) => {
+      setValueObj((prevObj) => ({
+        ...prevObj,
+        [item.key]: item.value,
+      }));
+    });
+  }, [currentItem]);
+
   const capitalizeFirstLetter = useCallback(
     (str) => str.charAt(0).toUpperCase() + str.slice(1),
     []
@@ -122,25 +140,28 @@ const TranslatableResourceTable = ({ currentItem }) => {
     });
   }, [valueObj, appFetch]);
 
-  // const disabled = useMemo(
-  //   () =>
-  //     currentItem?.translatableContent?.every((translation) => {
-  //       const { key, value, locale } = translation;
-  //       const translationValue = valueObj[key];
-  //       return translationValue === value && locale !== valueObj?.locale;
-  //     }),
-  //   [valueObj, currentItem]
-  // );
-  //
-  // console.log(disabled);
-  // console.log(valueObj);
-  // console.log(currentItem?.translatableContent);
+  const disabled = useMemo(() => {
+    if (!currentItem?.translatableContent) return false;
+
+    return currentItem?.translatableContent?.every((item) => {
+      const { key } = item;
+      const translation = currentItem?.translations?.find(
+        (translation) => translation.key === key
+      ) || { value: "" };
+
+      return valueObj[key] === translation.value;
+    });
+  }, [valueObj, currentItem]);
 
   return (
     <Page
       title={capitalizeFirstLetter(pageTitle)}
       primaryAction={
-        <Button disabled={false} variant="primary" onClick={() => handleSave()}>
+        <Button
+          disabled={disabled}
+          variant="primary"
+          onClick={() => handleSave()}
+        >
           Save
         </Button>
       }
