@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   BlockStack,
   Box,
@@ -10,13 +10,13 @@ import {
   Spinner,
   Text,
   TextField,
-} from '@shopify/polaris';
-import { useLocation } from 'react-router-dom';
-import { languages } from '../../constants/languages';
-import LanguageSelector from '../LanguageSelector/LanguageSelector';
-import TextEditor from '../TinyMceElement/TextEditor';
-import { useSelector } from 'react-redux';
-import { selectLocalesArray } from '../../redux/locales/localesSelectors';
+} from "@shopify/polaris";
+import { useLocation } from "react-router-dom";
+import { languages } from "../../constants/languages";
+import LanguageSelector from "../LanguageSelector/LanguageSelector";
+import TextEditor from "../TinyMceElement/TextEditor";
+import { useSelector } from "react-redux";
+import { selectLocalesArray } from "../../redux/locales/localesSelectors";
 
 const TranslatableResourceTable = ({ currentItem }) => {
   const [valueObj, setValueObj] = useState({});
@@ -44,19 +44,22 @@ const TranslatableResourceTable = ({ currentItem }) => {
     setValueObj((prev) => ({ ...prev, [key]: newValue }));
   }, []);
 
-  console.log('valueObj', valueObj);
+  console.log("valueObj", valueObj);
 
-  const pageTitle = useLocation().pathname.split('/').pop();
+  const pageTitle = useLocation().pathname.split("/").pop();
 
-  const handleTranclateButton = (key, value) => {
+  const handleTranslateButton = (key, value) => {
     if (value) {
-      console.log('handleTranclateButton', key, value);
-      setValueObj((prev) => ({ ...prev, [key]: value.concat(' ','[Translated]') }));
+      console.log("handleTranslateButton", key, value);
+      setValueObj((prev) => ({
+        ...prev,
+        [key]: value.concat(" ", "[Translated]"),
+      }));
     }
   };
 
   const TranslateButton = ({ itemKey, value }) => (
-    <Button onClick={() => handleTranclateButton(itemKey, value)}>
+    <Button onClick={() => handleTranslateButton(itemKey, value)}>
       Translate
     </Button>
   );
@@ -70,7 +73,7 @@ const TranslatableResourceTable = ({ currentItem }) => {
             {item.value}
           </Text>
         </Box>,
-        item.key.trim().includes('html') ? (
+        item.key.trim().includes("html") ? (
           <TextEditor />
         ) : (
           <TextField
@@ -87,16 +90,16 @@ const TranslatableResourceTable = ({ currentItem }) => {
     }
   }, [currentItem, valueObj]);
 
-  const columnContentTypes = ['text', 'text', 'text'];
+  const columnContentTypes = ["text", "text", "text"];
 
   const headings = [
-    '',
+    "",
     <Box>
       <Text alignment="center" tone="subdued">
         Primary language
       </Text>
       <Text alignment="center" tone="subdued" variant="bodyLg">
-        {'Language' &&
+        {"Language" &&
           currentItem.translatableContent &&
           languages[currentItem.translatableContent.at(0).locale]}
       </Text>
@@ -112,7 +115,7 @@ const TranslatableResourceTable = ({ currentItem }) => {
 
   return (
     <Page
-      backAction={{ url: '/pagename' }}
+      backAction={{ url: "/pagename" }}
       title={capitalizeFirstLetter(pageTitle)}
     >
       {currentItem.translatableContent ? (
