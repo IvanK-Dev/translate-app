@@ -1,11 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   BlockStack,
   Box,
   Button,
   DataTable,
-  InlineStack,
   Page,
   SkeletonTabs,
   Spinner,
@@ -91,7 +89,7 @@ const TranslatableResourceTable = ({ currentItem }) => {
             {item.value}
           </Text>
         </Box>,
-        item.key.trim().includes('html') ? (
+        item.key.trim().includes("html") ? (
           <TextEditor />
         ) : (
           <TextField
