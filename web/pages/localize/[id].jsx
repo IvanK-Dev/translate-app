@@ -130,7 +130,7 @@ const LocalizePage = () => {
             </Box>
           )}
         </Box>
-        <Box>
+        <Box style={{ overflow: "auto" }}>
           <TranslatableResourceTable currentId={currentId} />
         </Box>
       </Box>
