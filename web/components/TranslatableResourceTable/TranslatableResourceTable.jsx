@@ -1,23 +1,22 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   BlockStack,
   Box,
+  Button,
   DataTable,
+  InlineStack,
   Page,
   SkeletonTabs,
   Spinner,
   Text,
   TextField,
-} from '@shopify/polaris';
-import { useLocation } from 'react-router-dom';
-import { languages } from '../../constants/languages';
-import LanguageSelector from '../LanguageSelector/LanguageSelector';
-import TextEditor from '../TinyMceElement/TextEditor';
-import { useSelector } from 'react-redux';
-import {
-  selectLocalesArray,
-  selectLocalesStatus,
-} from '../../redux/locales/localesSelectors';
+} from "@shopify/polaris";
+import { useLocation } from "react-router-dom";
+import { languages } from "../../constants/languages";
+import LanguageSelector from "../LanguageSelector/LanguageSelector";
+import TextEditor from "../TinyMceElement/TextEditor";
+import { useSelector } from "react-redux";
+import { selectLocalesArray } from "../../redux/locales/localesSelectors";
 
 const TranslatableResourceTable = ({ currentItem }) => {
   const [valueObj, setValueObj] = useState({});
@@ -32,6 +31,10 @@ const TranslatableResourceTable = ({ currentItem }) => {
     }
   }, [language]);
 
+  useEffect(() => {
+    setValueObj({});
+  }, [currentItem]);
+
   const capitalizeFirstLetter = useCallback(
     (str) => str.charAt(0).toUpperCase() + str.slice(1),
     []
@@ -41,9 +44,25 @@ const TranslatableResourceTable = ({ currentItem }) => {
     setValueObj((prev) => ({ ...prev, [key]: newValue }));
   }, []);
 
-  console.log('valueObj', valueObj);
+  console.log("valueObj", valueObj);
 
-  const pageTitle = useLocation().pathname.split('/').pop();
+  const pageTitle = useLocation().pathname.split("/").pop();
+
+  const handleTranslateButton = (key, value) => {
+    if (value) {
+      console.log("handleTranslateButton", key, value);
+      setValueObj((prev) => ({
+        ...prev,
+        [key]: value.concat(" ", "[Translated]"),
+      }));
+    }
+  };
+
+  const TranslateButton = ({ itemKey, value }) => (
+    <Button onClick={() => handleTranslateButton(itemKey, value)}>
+      Translate
+    </Button>
+  );
 
   const rows = useCallback(() => {
     if (currentItem.translatableContent) {
@@ -54,29 +73,33 @@ const TranslatableResourceTable = ({ currentItem }) => {
             {item.value}
           </Text>
         </Box>,
-        item.key.trim().includes('html') ? (
+        item.key.trim().includes("html") ? (
           <TextEditor />
         ) : (
           <TextField
             value={valueObj[item.key]}
             onChange={(value) => handleChange(item.key, value)}
             autoComplete="off"
-          />
+            placeholder=" Input here"
+            connectedRight={
+              <TranslateButton value={valueObj[item.key]} itemKey={item.key} />
+            }
+          ></TextField>
         ),
       ]);
     }
   }, [currentItem, valueObj]);
 
-  const columnContentTypes = ['text', 'text', 'text'];
+  const columnContentTypes = ["text", "text", "text"];
 
   const headings = [
-    '',
+    "",
     <Box>
       <Text alignment="center" tone="subdued">
         Primary language
       </Text>
       <Text alignment="center" tone="subdued" variant="bodyLg">
-        {'Language' &&
+        {"Language" &&
           currentItem.translatableContent &&
           languages[currentItem.translatableContent.at(0).locale]}
       </Text>
@@ -91,7 +114,10 @@ const TranslatableResourceTable = ({ currentItem }) => {
   ];
 
   return (
-    <Page title={capitalizeFirstLetter(pageTitle)}>
+    <Page
+      backAction={{ url: "/pagename" }}
+      title={capitalizeFirstLetter(pageTitle)}
+    >
       {currentItem.translatableContent ? (
         <Box maxWidth="100%">
           <DataTable
