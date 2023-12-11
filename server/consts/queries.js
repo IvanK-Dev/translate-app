@@ -34,9 +34,7 @@ const createQuery = (entity) => (direction) => {
           resourceId 
           translatableContent { 
             key 
-            value 
-            digest 
-            locale 
+            value
           }
         }
       }

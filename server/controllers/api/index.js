@@ -1,8 +1,10 @@
 import contrsWrapper from "../../helpers/contrsWrapper.js";
-import getEntity from "./getEntity.js";
+import getEntities from "./getEntities.js";
 import regTranslation from "./regTranslation.js";
+import getEntityById from "./getEntityById.js";
 
 export default {
-  getEntity: contrsWrapper(getEntity),
+  getEntities: contrsWrapper(getEntities),
   regTranslation: contrsWrapper(regTranslation),
+  getEntityById: contrsWrapper(getEntityById),
 };

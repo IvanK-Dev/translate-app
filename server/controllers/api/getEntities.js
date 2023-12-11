@@ -1,7 +1,7 @@
 import shopify from "../../shopify.js";
 import { QUERIES } from "../../consts/queries.js";
 
-const getEntity = async (req, res) => {
+const getEntities = async (req, res) => {
   const { entity } = req.params;
   const { quantity = 10, cursor = null, direction = "forward" } = req.body;
 
@@ -47,4 +47,4 @@ const getEntity = async (req, res) => {
   return res.status(200).json(combinedData);
 };
 
-export default getEntity;
+export default getEntities;
