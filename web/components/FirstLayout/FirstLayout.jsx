@@ -8,6 +8,7 @@ import {
   Icon,
   Divider,
   Badge,
+  Spinner,
 } from "@shopify/polaris";
 import { ChevronRightMinor } from "@shopify/polaris-icons";
 import React, { useCallback, useEffect } from "react";
@@ -18,11 +19,10 @@ import { useAppBridge, useNavigate } from "@shopify/app-bridge-react";
 import { useDispatch } from "react-redux";
 import { getLocalesThunk } from "../../redux/locales/localesThunk";
 import {
-  selectLocalesArray,
   selectPrimaryLocale,
 } from "../../redux/locales/localesSelectors.js";
 import { useSelector } from "react-redux";
-import LanguageSelector from "../LanguageSelector/LanguageSelector.jsx";
+// import LanguageSelector from "../LanguageSelector/LanguageSelector.jsx";
 
 function FirstLayout() {
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ function FirstLayout() {
   }, [dispatch, app]);
 
   const primaryLocale = useSelector(selectPrimaryLocale)?.locale;
-  const locales = useSelector(selectLocalesArray);
+  // const locales = useSelector(selectLocalesArray);
 
   const buttonData = {
     Products: ["Collections", "Products"],
@@ -126,11 +126,11 @@ function FirstLayout() {
 
   return (
     <Box>
-      <Box paddingBlockStart={"300"} paddingBlockEnd={"300"}>
+      {/* <Box paddingBlockStart={"300"} paddingBlockEnd={"300"}>
         <BlockStack inlineAlign="center">
           {locales.length > 0 && <LanguageSelector />}
         </BlockStack>
-      </Box>
+      </Box> */}
       <Layout>
         <Layout.Section>
           <BlockStack>{blockStackItems}</BlockStack>
