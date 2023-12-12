@@ -149,8 +149,11 @@ const LocalizePage = () => {
           )}
         </Box>
         <Box style={{ overflow: 'auto' }}>
-          {currentId?
-          <TranslatableResourceTable currentId={currentId} />:<HaveNotItem />}
+          {currentId ? (
+            <TranslatableResourceTable currentId={currentId} />
+          ) : (
+            <HaveNotItem />
+          )}
         </Box>
       </Box>
     </div>
