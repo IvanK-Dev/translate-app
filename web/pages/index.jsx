@@ -2,16 +2,9 @@ import {
   Card,
   Page,
   Layout,
-  // TextContainer,
-  // Image,
-  // Stack,
-  // Link,
-  // Text,
 } from "@shopify/polaris";
-import { TitleBar } from "@shopify/app-bridge-react";
 import { useTranslation, Trans } from "react-i18next";
 
-import { trophyImage } from "../assets/index.js";
 
 import { ProductsCard } from "../components/index.js";
 
@@ -19,7 +12,6 @@ export default function HomePage() {
   const { t } = useTranslation();
   return (
     <Page narrowWidth>
-      {/* <TitleBar title={t("index  -  Shop")} primaryAction={null} /> */}
       <Layout>
         <Layout.Section>
           <Card sectioned>

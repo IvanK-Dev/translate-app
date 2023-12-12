@@ -21,7 +21,7 @@ import {
 } from '../../redux/locales/localesSelectors';
 import { useFetch } from '../../hooks/useFetch.js';
 
-import css from './TranslatableResourceTable.module.css';
+import css from '../Spinner.module.css';
 
 const TranslatableResourceTable = ({ currentId }) => {
   const [valueObj, setValueObj] = useState({});
