@@ -149,7 +149,6 @@ const LocalizePage = () => {
           )}
         </Box>
         <Box style={{ overflow: 'auto' }}>
-          {console.log('Box currentId', currentId, '/n', 'loading', loading)}
           {currentId?
           <TranslatableResourceTable currentId={currentId} />:<HaveNotItem />}
         </Box>
