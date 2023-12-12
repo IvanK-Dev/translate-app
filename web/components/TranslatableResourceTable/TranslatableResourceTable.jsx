@@ -33,6 +33,8 @@ const TranslatableResourceTable = ({ currentId }) => {
 
   useEffect(() => {
     if (!currentId) return;
+    if (!activeLocale) return;
+
     const getEntity = async () => {
       const response = await appFetch.post(`/api/entity/`, {
         resourceId: currentId,
@@ -81,7 +83,6 @@ const TranslatableResourceTable = ({ currentId }) => {
 
   const handleTranslateButton = (key, value) => {
     if (value) {
-      console.log('handleTranslateButton', key, value);
       setValueObj((prev) => ({
         ...prev,
         [key]: value.concat(' ', '[Translated]'),

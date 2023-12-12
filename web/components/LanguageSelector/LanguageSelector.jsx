@@ -1,14 +1,12 @@
-import { ActionList, Button, Popover } from "@shopify/polaris";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { STATUS, languages } from "../../constants";
-import { useDispatch, useSelector } from "react-redux";
+import { ActionList, Button, Popover } from '@shopify/polaris';
+import { useCallback, useMemo, useState } from 'react';
+import { STATUS, languages } from '../../constants';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   selectLocalesArray,
   selectLocalesStatus,
-} from "../../redux/locales/localesSelectors";
-import { changeLanguage } from "../../redux/locales/localesSlice";
-import { useAppBridge } from "@shopify/app-bridge-react";
-import { getLocalesThunk } from "../../redux/locales/localesThunk";
+} from '../../redux/locales/localesSelectors';
+import { changeLanguage } from '../../redux/locales/localesSlice';
 
 const LanguageSelector = () => {
   const [opened, setOpened] = useState(false);
@@ -16,16 +14,6 @@ const LanguageSelector = () => {
 
   const locales = useSelector(selectLocalesArray);
   const status = useSelector(selectLocalesStatus);
-
-  const app = useAppBridge();
-
-  useEffect(() => {
-    if (locales.length === 0) {
-      (() => {
-        dispatch(getLocalesThunk(app));
-      })();
-    }
-  }, [dispatch, app]);
 
   const toggleOpened = useCallback(() => setOpened((open) => !open), []);
 
