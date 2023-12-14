@@ -8,50 +8,38 @@ import {
   Icon,
   Divider,
   Badge,
-} from "@shopify/polaris";
-import { ChevronRightMinor } from "@shopify/polaris-icons";
-import React, { useCallback, useEffect } from "react";
+} from '@shopify/polaris';
+import { ChevronRightMinor } from '@shopify/polaris-icons';
+import React, { useCallback } from 'react';
 
-import "./FirstLayout.module.css";
-import { languages } from "../../constants";
-import { useAppBridge, useNavigate } from "@shopify/app-bridge-react";
-import { useDispatch } from "react-redux";
-import { getLocalesThunk } from "../../redux/locales/localesThunk";
+import './FirstLayout.module.css';
+import { languages } from '../../constants';
 import {
   selectLocalesArray,
   selectPrimaryLocale,
-} from "../../redux/locales/localesSelectors.js";
-import { useSelector } from "react-redux";
-import LanguageSelector from "../LanguageSelector/LanguageSelector.jsx";
+} from '../../redux/locales/localesSelectors.js';
+import { useSelector } from 'react-redux';
+import HasNoLanguages from '../HasNoLanguages/HasNoLanguages.jsx';
 
 function FirstLayout() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const app = useAppBridge();
-
-  useEffect(() => {
-    (() => {
-      dispatch(getLocalesThunk(app));
-    })();
-  }, [dispatch, app]);
 
   const primaryLocale = useSelector(selectPrimaryLocale)?.locale;
   const locales = useSelector(selectLocalesArray);
 
   const buttonData = {
-    Products: ["Collections", "Products"],
-    "Online Store": [
-      "Blog posts",
-      "Blog titles",
-      "Filters",
-      "Metaobjects",
-      "Navigation",
-      "Pages",
-      "Policies",
-      "Store metadata",
+    Products: ['Collections', 'Products'],
+    'Online Store': [
+      'Blog posts',
+      'Blog titles',
+      'Filters',
+      'Metaobjects',
+      'Navigation',
+      'Pages',
+      'Policies',
+      'Store metadata',
     ],
-    Settings: ["Notifications", "Shipping and delivery"],
+    Settings: ['Notifications', 'Shipping and delivery'],
   };
 
   const generateItems = useCallback(() => {
@@ -61,9 +49,9 @@ function FirstLayout() {
       str = str
         .trim()
         .toLowerCase()
-        .replace(/\s+/g, "_")
-        .replace(/s$/, "")
-        .replace(/ie$/, "y");
+        .replace(/\s+/g, '_')
+        .replace(/s$/, '')
+        .replace(/ie$/, 'y');
       navigate(`/localize/${str}`);
     };
 
@@ -78,10 +66,10 @@ function FirstLayout() {
               borderColor="border-secondary"
               borderStyle="solid"
               borderBlockEndWidth="025"
-              paddingBlockStart={"300"}
-              paddingBlockEnd={"300"}
-              paddingInlineStart={"400"}
-              paddingInlineEnd={"400"}
+              paddingBlockStart={'300'}
+              paddingBlockEnd={'300'}
+              paddingInlineStart={'400'}
+              paddingInlineEnd={'400'}
             >
               <Text as="span" variant="headingSm">
                 {key}
@@ -94,7 +82,7 @@ function FirstLayout() {
                     key={`${index} ${subKey}`}
                     onClick={() => handleOnClick(subKey)}
                   >
-                    <Box padding={{ xs: "400" }}>
+                    <Box padding={{ xs: '400' }}>
                       <InlineStack
                         align="space-between"
                         blockAlign="center"
@@ -126,11 +114,6 @@ function FirstLayout() {
 
   return (
     <Box>
-      <Box paddingBlockStart={"300"} paddingBlockEnd={"300"}>
-        <BlockStack inlineAlign="center">
-          {locales.length > 0 && <LanguageSelector />}
-        </BlockStack>
-      </Box>
       <Layout>
         <Layout.Section>
           <BlockStack>{blockStackItems}</BlockStack>
@@ -138,7 +121,7 @@ function FirstLayout() {
         <Layout.Section variant="oneThird">
           <Card sectioned>
             <h2>
-              {languages[primaryLocale]} <Badge>Default</Badge>{" "}
+              {languages[primaryLocale]} <Badge>Default</Badge>{' '}
             </h2>
             <p>
               Your default language is visible to all customers. Versions
@@ -146,12 +129,7 @@ function FirstLayout() {
               markets.
             </p>
           </Card>
-          {/* <Card sectioned>
-            <h2>Get started guide</h2>
-            <p>
-              Learn all about content localization with our quick start guide.
-            </p>
-          </Card> */}
+          {(!locales || locales.length === 0) && <HasNoLanguages />}
         </Layout.Section>
       </Layout>
     </Box>

@@ -1,10 +1,10 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import fetchFunc from "../../utils/fetchFunc";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import fetchFunc from '../../utils/fetchFunc';
 
-export const getLocalesThunk = createAsyncThunk("getLocales", async (app) => {
+export const getLocalesThunk = createAsyncThunk('getLocales', async (app) => {
   const query = fetchFunc(app);
   try {
-    const localesData = await query.get("/api/shop/locales");
+    const localesData = await query.get('/api/shop/locales');
     const primaryLocaleIndex = localesData?.findIndex(
       (locale) => locale.primary
     );
@@ -19,6 +19,6 @@ export const getLocalesThunk = createAsyncThunk("getLocales", async (app) => {
       locales,
     };
   } catch (error) {
-    console.error("Error fetching locales:", error);
+    console.error('Error fetching locales:', error);
   }
 });

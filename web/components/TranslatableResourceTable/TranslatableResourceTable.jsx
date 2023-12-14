@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   BlockStack,
   Box,
@@ -9,17 +9,19 @@ import {
   Spinner,
   Text,
   TextField,
-} from "@shopify/polaris";
-import { useLocation } from "react-router-dom";
-import { languages } from "../../constants/index.js";
-import LanguageSelector from "../LanguageSelector/LanguageSelector";
-import TextEditor from "../TinyMceElement/TextEditor";
-import { useSelector } from "react-redux";
+} from '@shopify/polaris';
+import { useLocation } from 'react-router-dom';
+import { languages } from '../../constants/index.js';
+import LanguageSelector from '../LanguageSelector/LanguageSelector';
+import TextEditor from '../TinyMceElement/TextEditor';
+import { useSelector } from 'react-redux';
 import {
   selectActiveLocale,
   selectLocalesArray,
-} from "../../redux/locales/localesSelectors";
-import { useFetch } from "../../hooks/useFetch.js";
+} from '../../redux/locales/localesSelectors';
+import { useFetch } from '../../hooks/useFetch.js';
+
+import css from '../Spinner.module.css';
 
 const TranslatableResourceTable = ({ currentId }) => {
   const [valueObj, setValueObj] = useState({});
@@ -31,6 +33,8 @@ const TranslatableResourceTable = ({ currentId }) => {
 
   useEffect(() => {
     if (!currentId) return;
+    if (!activeLocale) return;
+
     const getEntity = async () => {
       const response = await appFetch.post(`/api/entity/`, {
         resourceId: currentId,
@@ -53,7 +57,7 @@ const TranslatableResourceTable = ({ currentId }) => {
     currentItem.translatableContent.forEach((item) => {
       setValueObj((prevObj) => ({
         ...prevObj,
-        [item.key]: "",
+        [item.key]: '',
       }));
     });
 
@@ -75,14 +79,13 @@ const TranslatableResourceTable = ({ currentId }) => {
     setValueObj((prev) => ({ ...prev, [key]: newValue }));
   }, []);
 
-  const pageTitle = useLocation().pathname.split("/").pop();
+  const pageTitle = useLocation().pathname.split('/').pop();
 
   const handleTranslateButton = (key, value) => {
     if (value) {
-      console.log("handleTranslateButton", key, value);
       setValueObj((prev) => ({
         ...prev,
-        [key]: value.concat(" ", "[Translated]"),
+        [key]: value.concat(' ', '[Translated]'),
       }));
     }
   };
@@ -99,7 +102,7 @@ const TranslatableResourceTable = ({ currentId }) => {
         capitalizeFirstLetter(item.key.trim()),
         <Box>
           <Text
-            as={"span"}
+            as={'span'}
             alignment="start"
             tone="subdued"
             className="break-word"
@@ -107,14 +110,14 @@ const TranslatableResourceTable = ({ currentId }) => {
             {item.value}
           </Text>
         </Box>,
-        item.key.trim().includes("html") ? (
+        item.key.trim().includes('html') ? (
           <TextEditor />
         ) : (
           <TextField
             value={valueObj[item.key]}
             onChange={(value) => handleChange(item.key, value)}
             autoComplete="off"
-            label={""}
+            label={''}
             placeholder=" Input here"
             connectedRight={
               <TranslateButton value={valueObj[item.key]} itemKey={item.key} />
@@ -125,23 +128,23 @@ const TranslatableResourceTable = ({ currentId }) => {
     }
   }, [currentItem, valueObj]);
 
-  const columnContentTypes = ["text", "text", "text"];
+  const columnContentTypes = ['text', 'text', 'text'];
 
   const headings = [
-    "",
+    '',
     <Box>
-      <Text as={"span"} alignment="center" tone="subdued">
+      <Text as={'span'} alignment="center" tone="subdued">
         Primary language
       </Text>
-      <Text as={"span"} alignment="center" tone="subdued" variant="bodyLg">
-        {"Language" &&
+      <Text as={'span'} alignment="center" tone="subdued" variant="bodyLg">
+        {'Language' &&
           currentItem?.translatableContent &&
           languages[currentItem?.translatableContent?.at(0).locale]}
       </Text>
     </Box>,
 
     <Box>
-      <Text as={"span"} alignment="center">
+      <Text as={'span'} alignment="center">
         Translate language
       </Text>
       <BlockStack inlineAlign="center">
@@ -173,8 +176,8 @@ const TranslatableResourceTable = ({ currentId }) => {
 
     if (payload.translations.length === 0) return;
 
-    appFetch
-      .post("/api/translate", payload)
+    appFetch /// переписать в Thank в redux или ввести спинер
+      .post('/api/translate', payload)
       .then((response) => {
         const newTranslations = response?.translationsRegister?.translations;
 
@@ -202,7 +205,7 @@ const TranslatableResourceTable = ({ currentId }) => {
       const { key } = item;
       const translation = currentItem?.translations?.find(
         (translation) => translation.key === key
-      ) || { value: "" };
+      ) || { value: '' };
 
       return valueObj[key] === translation.value;
     });
@@ -210,7 +213,7 @@ const TranslatableResourceTable = ({ currentId }) => {
 
   return (
     <Page
-      backAction={{ url: "/pagename" }}
+      backAction={{ url: '/pagename' }}
       title={capitalizeFirstLetter(pageTitle)}
       primaryAction={
         <Button
@@ -233,7 +236,9 @@ const TranslatableResourceTable = ({ currentId }) => {
         </Box>
       ) : (
         <>
-          <Spinner />
+          <div className={css.spinner}>
+            <Spinner />
+          </div>
           <SkeletonTabs count={2} />
           <SkeletonTabs count={2} />
           <SkeletonTabs count={2} />
