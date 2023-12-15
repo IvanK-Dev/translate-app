@@ -176,7 +176,7 @@ const TranslatableResourceTable = ({ currentId }) => {
 
     if (payload.translations.length === 0) return;
 
-    appFetch /// переписать в Thank в redux или ввести спинер
+    appFetch 
       .post('/api/translate', payload)
       .then((response) => {
         const newTranslations = response?.translationsRegister?.translations;

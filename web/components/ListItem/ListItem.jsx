@@ -1,4 +1,4 @@
-import { InlineStack, ResourceItem, Text, Thumbnail } from "@shopify/polaris";
+import { InlineStack, Text, Thumbnail } from "@shopify/polaris";
 import { ImageMajor } from "@shopify/polaris-icons";
 
 export const ListItem = ({ withImage, image, title }) => {
