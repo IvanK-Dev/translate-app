@@ -19,6 +19,7 @@ import {
   selectPrimaryLocale,
 } from '../../redux/locales/localesSelectors.js';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import HasNoLanguages from '../HasNoLanguages/HasNoLanguages.jsx';
 
 function FirstLayout() {
